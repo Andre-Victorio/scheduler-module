@@ -1,0 +1,316 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+
+h1{
+    font-size: 30px;
+    line-height: 10vh;
+    flex:auto;
+    font-family:'Montserrat', sans-serif;
+    color: #001b4e;
+    margin: 0px 10px 0px 10px;
+}
+
+.page{
+    margin-top: 4rem;
+}
+
+.admin_page{
+   margin-left: 200px;
+   padding: 1px 16px;
+   height: 1000px;
+}
+
+.container{
+    width: 100%;
+    padding: 20px;
+    float: left;
+}
+
+.container input{
+    display: flex;
+    float: right;
+    flex-direction: row;
+    padding: 10px;
+    margin-right: 7rem;
+    width: 10rem;
+
+}
+
+.searchbar{
+    display: inline;
+    float: right;
+}
+
+.searchbar button{
+    padding: 10px;
+    font-family: 'Montserrat', sans-serif;
+
+}
+
+.cards{
+   justify-content: space-between;
+   display: flex;
+   width: 80rem;
+   flex-wrap: wrap;
+
+}
+
+.card{
+    max-width: 80%;
+    width: 80%;
+    background-color: #d9d9d9;
+    border-radius: 5px;
+    padding: 30px;
+    line-height: 20px;
+    margin: 1rem;
+    transition: opacity .3s ease-in;
+    box-shadow:0 2px 8px 0 rgba(86, 86, 86, 0.104);
+}
+
+
+.card:hover{
+    opacity: 0.6;
+}
+
+.icon{
+    display: flex;
+    align-items:flex-end;
+    float: right;
+    transition: color .3s ease-in;
+    z-index: -1;
+}
+
+.icon:hover{
+    color: white;
+}
+
+
+
+h2,h3,h4,h5,h6{
+ font-family:'Montserrat', sans-serif;
+ color: #001b4e;
+}
+
+body{
+    background-color: white;
+    color:#001b4e;
+}
+
+
+section{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+}
+
+.tablist-container{
+    background-color: #efeded;
+    width: 180vh;
+    float: left;
+    padding: 20px;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.tab-container{
+    padding: 5px;
+    margin-right: 10px;
+    margin-left: 10px;
+    width: 80%;
+    position: relative;
+}
+
+.tab-card{
+    max-width: 80%;
+    width: 80%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: row;
+    background-color: #d9d9d9;
+    border-radius: 3px;
+    padding: 30px;
+    line-height: 20px;
+    margin: 1rem;
+    transition: opacity .3s ease-in;
+    box-shadow:0 2px 8px 0 rgba(86, 86, 86, 0.104);
+}
+
+.hide{
+    display: flex;
+    font: 'Monserrat, san-serif';
+    color: gray;
+    flex-wrap: wrap;
+    padding-bottom: 10px;
+
+}
+
+.hide:hover{
+    opacity: 0.60;
+}
+
+.status_approved{
+    color: green;
+}
+
+.faculty_cards{
+    display: flex;
+   justify-content: space-between;
+   flex-wrap: wrap;
+}
+
+.collapsible-container{
+    position: relative;
+    width: 100%;
+    background-color: rgb(253, 253, 253);
+    float: right;
+    margin-top: 10px;
+    padding: 1rem;
+    border-radius: 3px;
+    box-shadow:0 2px 8px 0 rgba(86, 86, 86, 0.104);
+}
+
+
+
+.collapsible-content{
+  margin-top: 10px;
+}
+
+.details{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 10px;
+    
+}
+
+.details input{
+    padding: 10px;
+    width: 100%;
+}
+
+.actions{
+    display: flex;
+    float: right;
+    padding-top: 10px;
+}
+
+.actions button{
+    padding: 10px 16px;
+    border: 1px solid #001b4e;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;   
+    font-weight: 50;
+}
+
+.actions button:hover{
+    opacity: 0.6;
+}
+
+.avail-sched-card{
+    max-width: 80%;
+    width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: row;
+    background-color: #d9d9d9;
+    border-radius: 3px;
+    padding: 30px;
+    line-height: 20px;
+    margin: 1rem;
+    transition: opacity .3s ease-in;
+    box-shadow:0 2px 8px 0 rgba(86, 86, 86, 0.104);
+}
+
+.return{
+    bottom: 1rem;
+    position: fixed;
+    left: 1rem;
+}
+
+.add-sched{
+    display: flex;
+    float: left;
+    justify-content: space-between;
+    margin-left: 1rem;
+}
+
+.add-sched:hover{
+    opacity: 0.60;
+}
+
+.table-container{
+    width: 60%;
+}
+
+@media only screen and (max-width: 768px){
+
+    h1{
+        font-size: 8vw;
+        line-height: 6vh;
+    }
+
+    .cards{
+        width: 100%;
+
+    }
+
+    .container{
+        width: 80%;
+    }
+
+    .container input{
+        margin: 1rem 2rem;
+     
+        width: 80%;
+    }
+
+    .tablist-container{
+        width: 80%;
+
+    }
+
+    .tab-card{
+        display:block;
+        line-height: 25px;
+    }
+
+    .faculty_cards{
+        display: block;
+        width: 60%;
+    }
+
+    .collapsible-container{
+       padding: 0.5rem;
+       margin-left: 1rem;
+    }
+
+    .details{
+        display: block;
+        padding-top: 1rem;
+    }
+
+    .actions{
+        display: block;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .add-sched{
+        margin-top: 0.5rem;
+    }
+    
+    .admin_page{
+        margin-left: 0px;
+        padding: 0px;
+         }
+
+}
