@@ -1,7 +1,7 @@
 "use strict";
 var dbConn = require("../config/db.config");
 
-class Student {
+class Faculty {
   constructor(account) {
     this.name = account.name;
     this.email = account.email;
@@ -12,7 +12,7 @@ class Student {
   }
   //create account
   static createAccount(newAccount, result) {
-    dbConn.query("INSERT INTO Student set ?", newAccount, function (err, res) {
+    dbConn.query("INSERT INTO Faculty set ?", newAccount, function (err, res) {
       if (err) {
         console.log("error: ", err);
         result(err, null);
@@ -38,7 +38,7 @@ class Student {
 
   static findByEmail(email, result) {
     dbConn.query(
-      "SELECT * FROM Student WHERE email=?",
+      "SELECT * FROM Faculty WHERE email=?",
       email,
       function (err, res) {
         if (err) {
@@ -81,4 +81,4 @@ class Student {
   // }
 }
 
-module.exports = Student;
+module.exports = Faculty;

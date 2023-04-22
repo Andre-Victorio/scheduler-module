@@ -1,6 +1,6 @@
 "use strict";
 const StudentAccount = require("../model-components/studentModelComponent");
-
+const FacultyAccount = require("../model-components/facultyModelComponent")
 const findByEmail = (req, res) => {
   StudentAccount.findByEmail(req, function (err, account) {
     if (err) {
@@ -15,7 +15,8 @@ const findByEmail = (req, res) => {
 };
 
 exports.create = function (req, res) {
-  const newAccount = new StudentAccount(req.body);
+  var x = (req.body["userType"] === "student") ? StudentAccount : FacultyAccount;
+  const newAccount = new x(req.body);
   //handles null error
   // console.log(req.body);
   if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
@@ -25,7 +26,7 @@ exports.create = function (req, res) {
   } else {
     findByEmail(newAccount["email"], function (status) {
       if (status === 200) {
-        StudentAccount.createAccount(newAccount, function (err, account) {
+        x.createAccount(newAccount, function (err, account) {
           if (err) {
             res.send(err);
           }

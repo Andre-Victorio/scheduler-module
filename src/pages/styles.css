@@ -191,7 +191,7 @@ section{
     
 }
 
-.details input{
+.details input,select{
     padding: 10px;
     width: 100%;
 }

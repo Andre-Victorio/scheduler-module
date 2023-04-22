@@ -31,9 +31,8 @@ function ChildModal() {
   return (
     <React.Fragment>
       <div className="actions">
-        <button type="submit" onClick={handleOpen}>
-          Confirm
-        </button>
+        <button type="submit">Confirm</button>
+        <button onClick={handleOpen} id="proxyButton" hidden></button>
       </div>
       <Modal
         open={open}
@@ -64,19 +63,57 @@ function AddNewRecord() {
   const handleAddAccountFormChange = (event) => {
     const name = event.target.name;
     var value;
+    // if (name === "userType") {
+    //   value = event.target.options[event.target.selectedIndex].text;
+    // } else {
+    //   value = event.target.value;
+    // }
     value = event.target.value;
-    // console.log(inputs);
+    roleSelectionHandler(value, name);
+    console.log(inputs);
     setInputs((values) => ({...values, [name]: value}));
   };
 
   const handleAddAccountSubmit = (event) => {
     event.preventDefault();
     addAccount();
-    console.log(inputs);
   };
 
+  function roleSelectionHandler(value, name) {
+    if (name === "userType") {
+      var roleSelection = document.getElementById("roleSelect");
+      while (roleSelection.hasChildNodes()) {
+        roleSelection.removeChild(roleSelection.firstChild);
+      }
+      var facultyUserTypes = ["Instructor", "Lab Technician"];
+      var option = document.createElement("option");
+      if (value === "student") {
+        roleSelection.disabled = true;
+        option.value = value;
+        option.innerHTML = "Student";
+        roleSelection.appendChild(option);
+        setInputs((values) => ({...values, role: value}));
+      } else if (value === "faculty") {
+        roleSelection.disabled = false;
+        setInputs((values) => ({...values, role: "instructor"}));
+        for (var x in facultyUserTypes) {
+          var options = document.createElement("option");
+          options.value = facultyUserTypes[x].toLowerCase();
+          options.innerHTML = facultyUserTypes[x];
+          roleSelection.appendChild(options);
+        }
+      } else {
+        roleSelection.disabled = true;
+        option.value = "";
+        option.innerHTML = "Select type of user to choose role";
+        roleSelection.appendChild(option);
+      }
+      // <option value="student">Student</option>
+    }
+  }
+
   async function addAccount() {
-    var alert = document.getElementById("alert");
+    document.getElementById("proxyButton").click();
     var response = await fetch("/api/addAccount", {
       method: "POST",
       body: JSON.stringify(inputs),
@@ -84,13 +121,16 @@ function AddNewRecord() {
         "Content-Type": "application/json",
       },
     });
+
+    var alertField = document.getElementById("alert");
+    console.log(response);
     if (response.status === 200) {
-      alert.innerHTML =
+      alertField.innerHTML =
         "Successfuly Added " + inputs.name + " to the database.";
     } else if (response.status === 409) {
-      alert.innerHTML = "Email already exists.";
+      alertField.innerHTML = "Email already exists.";
     } else {
-      alert.innerHTML = "Server could not process at the moment";
+      alertField.innerHTML = "Server could not process at the moment";
     }
   }
 
@@ -130,6 +170,7 @@ function AddNewRecord() {
                     placeholder="Name"
                     onChange={handleAddAccountFormChange}
                     name="name"
+                    required
                   ></input>
                 </div>
 
@@ -137,24 +178,42 @@ function AddNewRecord() {
                   <h3>
                     <b>User Type</b>
                   </h3>
-                  <input
+                  <select
+                    name="userType"
+                    value={inputs.userType || ""}
+                    required
+                    onChange={handleAddAccountFormChange}
+                  >
+                    <option value="">Select type of user:</option>
+                    <option value="student">Student</option>
+                    <option value="faculty">Faculty</option>
+                  </select>
+                  {/* <input
                     type="text"
                     placeholder="User Type"
-                    onChange={handleAddAccountFormChange}
                     name="userType"
-                  ></input>
+                  ></input> */}
                 </div>
 
                 <div className="details">
                   <h3>
                     <b>Role</b>
                   </h3>
-                  <input
+                  {/* <input
                     type="text"
                     placeholder="Role"
                     onChange={handleAddAccountFormChange}
                     name="role"
-                  ></input>
+                  ></input> */}
+                  <select
+                    name="role"
+                    id="roleSelect"
+                    disabled
+                    required
+                    onChange={handleAddAccountFormChange}
+                  >
+                    <option value="">Select type of user to choose role</option>
+                  </select>
                 </div>
 
                 <div className="details">
@@ -166,6 +225,7 @@ function AddNewRecord() {
                     placeholder="ID"
                     onChange={handleAddAccountFormChange}
                     name="id"
+                    required
                   ></input>
                 </div>
 
@@ -178,6 +238,7 @@ function AddNewRecord() {
                     placeholder="Email"
                     onChange={handleAddAccountFormChange}
                     name="email"
+                    required
                   ></input>
                 </div>
                 <ChildModal />
