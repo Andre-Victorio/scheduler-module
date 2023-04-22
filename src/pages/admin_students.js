@@ -81,7 +81,6 @@ function AdminStudents() {
             </Table>
     </TableContainer>
     </div>
-
         </section>
     </div>
   )

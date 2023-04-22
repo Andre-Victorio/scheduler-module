@@ -11,7 +11,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 app.use(bodyParser.json());
 
+const websiteRoutes = require("./route-components/routeComponent");
 
+app.use("/api", websiteRoutes);
 
 app.listen(port, () => {
   console.log(`Server is listening to port ${port}`);

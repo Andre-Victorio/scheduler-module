@@ -1,119 +1,193 @@
-import * as React from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Typography from '@mui/material/Typography';
-import '../pages/styles.css'
-import { FaPlus } from 'react-icons/fa'
-
-
+import * as React from "react";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Typography from "@mui/material/Typography";
+import "../pages/styles.css";
+import {FaPlus} from "react-icons/fa";
+import {useState} from "react";
 const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '60%',
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "60%",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
+function ChildModal() {
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
 
-  function ChildModal() {
-    const [open, setOpen] = React.useState(false);
-    const handleOpen = () => {
-      setOpen(true);
-    };
-    const handleClose = () => {
-      setOpen(false);
-    };
-  
-    return (
-      <React.Fragment>
-        <div className="actions">
-        <button onClick={handleOpen}>Confirm</button>
-        </div>
-        <Modal
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="child-modal-title"
-          aria-describedby="child-modal-description"
-        >
-          <Box sx={{ ...style, width: 200 }}>
-            <h5 id="child-modal-description">
+  return (
+    <React.Fragment>
+      <div className="actions">
+        <button type="submit" onClick={handleOpen}>
+          Confirm
+        </button>
+      </div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="child-modal-title"
+        aria-describedby="child-modal-description"
+      >
+        <Box sx={{...style, width: 200}}>
+          {/* <h5 id="child-modal-description">
               New record has successfully been added.
-            </h5>
-            <div className="actions">
+            </h5> */}
+          <div id="alert"></div>
+          <div className="actions">
             <button onClick={handleClose}>OK</button>
-            </div>
-            
-          </Box>
-        </Modal>
-      </React.Fragment>
-    );
-  }
-
-function AddNewRecord() {
- const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-  
-    return (
-        <><div>
-            <div className="add-sched" onClick={handleOpen}>
-                <FaPlus /> <h5>Add New Record</h5>
-            </div>
-        </div><Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            open={open}
-            onClose={handleClose}
-            closeAfterTransition
-            slots={{ backdrop: Backdrop }}
-            slotProps={{
-                backdrop: {
-                    timeout: 500,
-                },
-            }}
-        >
-                <Fade in={open}>
-                    <Box sx={style}>
-                        <Typography id="transition-modal-title" variant="h6">
-                            <h2>Add New Record</h2>
-                        </Typography>
-                        <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                            <div className="details">
-                                <h3><b>Name</b></h3>
-                                <input type="text" placeholder='Name'></input>
-                            </div>
-
-                            <div className="details">
-                                <h3><b>User Type</b></h3>
-                                <input type="text" placeholder='User Type'></input>
-                            </div>
-
-                            <div className="details">
-                                <h3><b>Role</b></h3>
-                                <input type="text" placeholder='Role'></input>
-                            </div>
-
-                            <div className="details">
-                                <h3><b>ID</b></h3>
-                                <input type="text" placeholder='ID'></input>
-                            </div>
-
-                            <div className="details">
-                                <h3><b>Email</b></h3>
-                                <input type="text" placeholder='Email'></input>
-                            </div>
-
-                            <ChildModal />
-                        </Typography>
-                    </Box>
-                </Fade>
-            </Modal></>
-    )
+          </div>
+        </Box>
+      </Modal>
+    </React.Fragment>
+  );
 }
 
-export default AddNewRecord
+function AddNewRecord() {
+  const [open, setOpen] = React.useState(false);
+  const [inputs, setInputs] = useState({});
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleAddAccountFormChange = (event) => {
+    const name = event.target.name;
+    var value;
+    value = event.target.value;
+    // console.log(inputs);
+    setInputs((values) => ({...values, [name]: value}));
+  };
+
+  const handleAddAccountSubmit = (event) => {
+    event.preventDefault();
+    addAccount();
+    console.log(inputs);
+  };
+
+  async function addAccount() {
+    var alert = document.getElementById("alert");
+    var response = await fetch("/api/addAccount", {
+      method: "POST",
+      body: JSON.stringify(inputs),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    if (response.status === 200) {
+      alert.innerHTML =
+        "Successfuly Added " + inputs.name + " to the database.";
+    } else if (response.status === 409) {
+      alert.innerHTML = "Email already exists.";
+    } else {
+      alert.innerHTML = "Server could not process at the moment";
+    }
+  }
+
+  return (
+    <>
+      <div>
+        <div className="add-sched" onClick={handleOpen}>
+          <FaPlus /> <h5>Add New Record</h5>
+        </div>
+      </div>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        slots={{backdrop: Backdrop}}
+        slotProps={{
+          backdrop: {
+            timeout: 500,
+          },
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={style}>
+            <Typography id="transition-modal-title" variant="h6">
+              <h2>Add New Record</h2>
+            </Typography>
+            <form onSubmit={handleAddAccountSubmit}>
+              <Typography id="transition-modal-description" sx={{mt: 2}}>
+                <div className="details">
+                  <h3>
+                    <b>Name</b>
+                  </h3>
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    onChange={handleAddAccountFormChange}
+                    name="name"
+                  ></input>
+                </div>
+
+                <div className="details">
+                  <h3>
+                    <b>User Type</b>
+                  </h3>
+                  <input
+                    type="text"
+                    placeholder="User Type"
+                    onChange={handleAddAccountFormChange}
+                    name="userType"
+                  ></input>
+                </div>
+
+                <div className="details">
+                  <h3>
+                    <b>Role</b>
+                  </h3>
+                  <input
+                    type="text"
+                    placeholder="Role"
+                    onChange={handleAddAccountFormChange}
+                    name="role"
+                  ></input>
+                </div>
+
+                <div className="details">
+                  <h3>
+                    <b>ID</b>
+                  </h3>
+                  <input
+                    type="text"
+                    placeholder="ID"
+                    onChange={handleAddAccountFormChange}
+                    name="id"
+                  ></input>
+                </div>
+
+                <div className="details">
+                  <h3>
+                    <b>Email</b>
+                  </h3>
+                  <input
+                    type="text"
+                    placeholder="Email"
+                    onChange={handleAddAccountFormChange}
+                    name="email"
+                  ></input>
+                </div>
+                <ChildModal />
+              </Typography>
+            </form>
+          </Box>
+        </Fade>
+      </Modal>
+    </>
+  );
+}
+
+export default AddNewRecord;

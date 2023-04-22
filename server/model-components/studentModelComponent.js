@@ -1,0 +1,82 @@
+"use strict";
+var dbConn = require("../config/db.config");
+
+class Student {
+  constructor(account) {
+    this.name = account.name;
+    this.email = account.email;
+    this.password = 1234        //Default Password
+    this.id = account.id;
+  }
+  //create account
+  static createAccount(newAccount, result) {
+    dbConn.query("INSERT INTO student set ?", newAccount, function (err, res) {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+      } else {
+        result(null, res.insertId);
+      }
+    });
+  }
+  // //query a single entry
+  // static findById(accountId, result) {
+  //   dbConn.query(
+  //     "SELECT * FROM accounts WHERE accountId=?",
+  //     accountId,
+  //     function (err, res) {
+  //       if (err) {
+  //         console.log(err, null);
+  //       } else {
+  //         result(null, res);
+  //       }
+  //     }
+  //   );
+  // }
+
+  static findByEmail(email, result) {
+    dbConn.query(
+      "SELECT * FROM Student WHERE email=?",
+      email,
+      function (err, res) {
+        if (err) {
+          console.log(err, null);
+        } else {
+          result(null, res);
+        }
+      }
+    );
+  }
+
+  // static findByEmailAndPassword(email, password, result) {
+  //   const query = "SELECT * FROM accounts WHERE email = ? AND password = ?";
+  //   dbConn.query(query, [email, password], function (err, res) {
+  //     if (err) {
+  //       console.log(err);
+  //       result(err, null);
+  //     } else {
+  //       result(
+  //         null,
+  //         res.length,
+  //         Object.values(res)[0]?.accountId,
+  //         Object.values(res)[0]?.status
+  //       );
+  //     }
+  //   });
+  // }
+
+  // static disableAccount(accountId, status, result) {
+  //   const query = "UPDATE accounts SET status = ? WHERE accountId = ?";
+  //   dbConn.query(query, [status, accountId], (err, res) => {
+  //     if (err) {
+  //       console.log(err);
+  //       result(err, null);
+  //     } else {
+  //       console.log(res);
+  //       result(null, res);
+  //     }
+  //   });
+  // }
+}
+
+module.exports = Student;
