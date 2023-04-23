@@ -60,6 +60,18 @@ exports.create = function (req, res) {
   }
 };
 
+exports.retrieveAccounts = function(req,res) {
+  var x = req.body["userType"] === "student" ? StudentAccount : FacultyAccount;
+  console.log(req.body);
+  x.retrieveAllAccounts(function(err,post){
+      if (err){
+          res.send(err);
+      }
+      console.log('res',post);
+      res.send({status:200,data: post});
+  });
+}
+
 // exports.findById = function (req, res) {
 //   Account.findById(req.params.accountId, function (err, account) {
 //     if (err) {

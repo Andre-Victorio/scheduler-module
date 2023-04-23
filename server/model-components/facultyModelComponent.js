@@ -50,6 +50,17 @@ class Faculty {
     );
   }
 
+  static retrieveAllAccounts(result) {
+    dbConn.query("SELECT * FROM Faculty", function (err, res) {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+      } else {
+        console.log("posts: ", res);
+        result(null, res);
+      }
+    });
+  }
   // static findByEmailAndPassword(email, password, result) {
   //   const query = "SELECT * FROM accounts WHERE email = ? AND password = ?";
   //   dbConn.query(query, [email, password], function (err, res) {

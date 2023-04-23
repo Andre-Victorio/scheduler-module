@@ -1,4 +1,5 @@
 import * as React from 'react'
+import {useState, useEffect, useRef, useCallback} from "react";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import EditStudentModal from '../components/EditRecordModal';
 import RemoveRecordModal from '../components/RemoveRecordModal';
@@ -6,24 +7,44 @@ import AddNewRecord from '../components/AddNewRecord';
 import './styles.css'
 
 //DISPLAYS ALL STUDENT RECORDS IN THE DATABASE. ONLY FACULTY & LAB TECH
-const tableData = [
-    {
-      id: 1,
-      name: 'AAAA',
-      role: 'Full Time Instructor',
-      email: 'aaaa@usc.edu.ph'
-    },
-    {
-        id: 1,
-        name: 'BBBB',
-        role: 'Lab Technican',
-        email: 'bbbb@usc.edu.ph'
-    },
+// const tableData = [
+//     {
+//       id: 1,
+//       name: 'AAAA',
+//       role: 'Full Time Instructor',
+//       email: 'aaaa@usc.edu.ph'
+//     },
+//     {
+//         id: 1,
+//         name: 'BBBB',
+//         role: 'Lab Technican',
+//         email: 'bbbb@usc.edu.ph'
+//     },
  
-  ];
+//   ];
 
 
 function AdminFaculty() {
+  const [account, setAccounts] = useState([]);
+  const dataFetchedRef = useRef(false);
+  const fetchAccounts = useCallback( async () =>{
+    var response = await fetch("/api/retrieveAccounts", {
+      method: "POST",
+      body: JSON.stringify({userType: "faculty"}),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    var data = await response.json();
+    setAccounts(data["data"]);
+    console.log(data);
+  },[]);
+
+  useEffect(() => {
+    if (dataFetchedRef.current) return;
+    dataFetchedRef.current = true;
+    fetchAccounts();
+  }, [fetchAccounts]);
   return (
     <div className="admin_page">
         <section>
@@ -58,19 +79,20 @@ function AdminFaculty() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tableData.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.id}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.role}</TableCell>
-              <TableCell>{row.email}</TableCell>
+          {account.map((row) => (
+            <TableRow key={row.FacultyId}>
+              {console.log(row)}
+              <TableCell>{row.ID}</TableCell>
+              <TableCell>{row.Name}</TableCell>
+              <TableCell>{row.Role}</TableCell>
+              <TableCell>{row.Email}</TableCell>
               <TableCell>
                 <div className="actions">
                  {/*BUTTON TO EDIT FACULTY DATA*/}
                 <EditStudentModal />
                 {/*BUTTON TO REMOVE FACULTY DATA*/}
                 <RemoveRecordModal />
-                </div>
+                </div> 
               </TableCell>
             </TableRow>
           ))}
