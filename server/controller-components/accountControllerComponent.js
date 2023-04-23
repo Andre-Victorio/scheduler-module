@@ -1,7 +1,14 @@
 "use strict";
 const StudentAccount = require("../model-components/studentModelComponent");
-const FacultyAccount = require("../model-components/facultyModelComponent")
+const FacultyAccount = require("../model-components/facultyModelComponent");
 const findByEmail = (req, res) => {
+  simultaneouslyQueryEmail(req, function (status) {
+    res(status);
+  });
+};
+
+//Attemps to find email first on student table then goes to faculty table
+const simultaneouslyQueryEmail = (req, res) => {
   StudentAccount.findByEmail(req, function (err, account) {
     if (err) {
       res.send(err);
@@ -9,13 +16,22 @@ const findByEmail = (req, res) => {
     if (Object.keys(account).length !== 0) {
       res(409);
     } else {
-      res(200);
+      FacultyAccount.findByEmail(req, function (err, account) {
+        if (err) {
+          res.send(err);
+        }
+        if (Object.keys(account).length !== 0) {
+          res(409);
+        } else {
+          res(200);
+        }
+      });
     }
   });
 };
 
 exports.create = function (req, res) {
-  var x = (req.body["userType"] === "student") ? StudentAccount : FacultyAccount;
+  var x = req.body["userType"] === "student" ? StudentAccount : FacultyAccount;
   const newAccount = new x(req.body);
   //handles null error
   // console.log(req.body);
