@@ -51,7 +51,7 @@ class Faculty {
   }
 
   static retrieveAllAccounts(result) {
-    dbConn.query("SELECT * FROM Faculty", function (err, res) {
+    dbConn.query("SELECT * FROM Faculty WHERE isDeleted = 0", function (err, res) {
       if (err) {
         console.log("error: ", err);
         result(null, err);
