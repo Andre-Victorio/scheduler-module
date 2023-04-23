@@ -71,7 +71,7 @@ function AdminFaculty() {
                  {/*BUTTON TO EDIT FACULTY DATA*/}
                 <EditStudentModal />
                 {/*BUTTON TO REMOVE FACULTY DATA*/}
-                <RemoveRecordModal />
+                <RemoveRecordModal details={{accountId : row.FacultyId, userType : row.UserType}}/>  
                 </div> 
               </TableCell>
             </TableRow>

@@ -78,18 +78,18 @@ class Faculty {
   //   });
   // }
 
-  // static disableAccount(accountId, status, result) {
-  //   const query = "UPDATE accounts SET status = ? WHERE accountId = ?";
-  //   dbConn.query(query, [status, accountId], (err, res) => {
-  //     if (err) {
-  //       console.log(err);
-  //       result(err, null);
-  //     } else {
-  //       console.log(res);
-  //       result(null, res);
-  //     }
-  //   });
-  // }
+  static disableAccount(accountId, result) {
+    const query = "UPDATE Faculty SET isDeleted = 1 WHERE FacultyId = ?";
+    dbConn.query(query, accountId, (err, res) => {
+      if (err) {
+        console.log(err);
+        result(err, null);
+      } else {
+        console.log(res);
+        result(null, res);
+      }
+    });
+  }
 }
 
 module.exports = Faculty;

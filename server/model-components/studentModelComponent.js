@@ -79,18 +79,18 @@ class Student {
   //   });
   // }
 
-  // static disableAccount(accountId, status, result) {
-  //   const query = "UPDATE accounts SET status = ? WHERE accountId = ?";
-  //   dbConn.query(query, [status, accountId], (err, res) => {
-  //     if (err) {
-  //       console.log(err);
-  //       result(err, null);
-  //     } else {
-  //       console.log(res);
-  //       result(null, res);
-  //     }
-  //   });
-  // }
+  static disableAccount(accountId, result) {
+    const query = "UPDATE Student SET isDeleted = 1 WHERE StudentId = ?";
+    dbConn.query(query, accountId, (err, res) => {
+      if (err) {
+        console.log(err);
+        result(err, null);
+      } else {
+        console.log(res);
+        result(null, res);
+      }
+    });
+  }
 }
 
 module.exports = Student;

@@ -1,11 +1,17 @@
-import * as React from 'react'
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
-import EditStudentModal from '../components/EditRecordModal';
-import RemoveRecordModal from '../components/RemoveRecordModal';
-import AddNewRecord from '../components/AddNewRecord';
-import RetrieveAccounts from '../components/retrieveAccounts';
-import './styles.css'
-
+import * as React from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import EditStudentModal from "../components/EditRecordModal";
+import RemoveRecordModal from "../components/RemoveRecordModal";
+import AddNewRecord from "../components/AddNewRecord";
+import RetrieveAccounts from "../components/retrieveAccounts";
+import "./styles.css";
 
 //DISPLAYS ALL STUDENT RECORDS IN THE DATABASE. ONLY STUDENTS
 // const tableData = [
@@ -21,70 +27,68 @@ import './styles.css'
 //         course: 'BSCS',
 //         email: 'bbbb@usc.edu.ph'
 //     },
- 
-//   ];
 
+//   ];
 
 function AdminStudents() {
   var accounts = RetrieveAccounts("student");
   return (
     <div className="admin_page">
-        <section>
+      <section>
+        {/*PAGE TITLE*/}
+        <div className="container">
+          <h1>Students</h1>
+          <div className="add-sched">
+            {/*BUTTON TO ADD NEW RECORD IN THE DATABASE*/}
+            <AddNewRecord />
+          </div>
 
-            {/*PAGE TITLE*/}
-            <div className="container">
-                <h1>Students</h1>
-                    <div className="add-sched">
-                    {/*BUTTON TO ADD NEW RECORD IN THE DATABASE*/}
-                    <AddNewRecord />
-                    </div>
-                    
-                    {/*SEARCH BAR TO SEARCH STUDENT BY NAME OR ID*/}
-                    <div className="searchbar">
-                    <input type="text" placeholder='Search'></input>
-                    <button>Search</button>
-                   </div>
-            </div>
+          {/*SEARCH BAR TO SEARCH STUDENT BY NAME OR ID*/}
+          <div className="searchbar">
+            <input type="text" placeholder="Search"></input>
+            <button>Search</button>
+          </div>
+        </div>
 
-            {/*TABLE*/}
-            <div className="table-container">
-            <TableContainer>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>ID</TableCell>
-                            <TableCell>Name</TableCell>
-                            <TableCell>Course</TableCell>
-                            <TableCell>Email</TableCell>
-                            <TableCell>Action</TableCell>
-                        </TableRow>
-                    </TableHead>
+        {/*TABLE*/}
+        <div className="table-container">
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>ID</TableCell>
+                  <TableCell>Name</TableCell>
+                  <TableCell>Course</TableCell>
+                  <TableCell>Email</TableCell>
+                  <TableCell>Action</TableCell>
+                </TableRow>
+              </TableHead>
 
-                    <TableBody>
-                        {accounts.map((row) => (
-                            <TableRow key={row.StudentId}>
-                            <TableCell>{row.ID}</TableCell>
-                            <TableCell>{row.Name}</TableCell>
-                            <TableCell>{row.Course}</TableCell>
-                            <TableCell>{row.Email}</TableCell>
-                            <TableCell>
-                                <div className="actions">
-                                        {/*BUTTON TO EDIT STUDENT DATA*/}
-                                        <EditStudentModal />
+              <TableBody>
+                {accounts.map((row) => (
+                  <TableRow key={row.StudentId}>
+                    <TableCell>{row.ID}</TableCell>
+                    <TableCell>{row.Name}</TableCell>
+                    <TableCell>{row.Course}</TableCell>
+                    <TableCell>{row.Email}</TableCell>
+                    <TableCell>
+                      <div className="actions">
+                        {/*BUTTON TO EDIT STUDENT DATA*/}
+                        <EditStudentModal />
 
-                                        {/*BUTTON TO REMOVE STUDENT DATA*/}
-                                        <RemoveRecordModal />
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                        ))}
-                    </TableBody>
+                        {/*BUTTON TO REMOVE STUDENT DATA*/}
+                        <RemoveRecordModal details={{accountId : row.StudentId, userType : row.UserType}}/>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
             </Table>
-    </TableContainer>
+          </TableContainer>
+        </div>
+      </section>
     </div>
-        </section>
-    </div>
-  )
+  );
 }
 
-export default AdminStudents
+export default AdminStudents;
