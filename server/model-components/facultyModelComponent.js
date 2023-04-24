@@ -79,8 +79,21 @@ class Faculty {
   // }
 
   static disableAccount(accountId, result) {
-    const query = "UPDATE Faculty SET isDeleted = 1 WHERE FacultyId = ?";
+    const query = "UPDATE Faculty SET isDeleted = 1 WHERE FacultyId  = ?";
     dbConn.query(query, accountId, (err, res) => {
+      if (err) {
+        console.log(err);
+        result(err, null);
+      } else {
+        console.log(res);
+        result(null, res);
+      }
+    });
+  }
+
+  static updateAccount(accountId, updatedAccount, result) {
+    const query = "UPDATE Faculty SET ? WHERE FacultyId = ?";
+    dbConn.query(query, [updatedAccount, accountId], (err, res) => {
       if (err) {
         console.log(err);
         result(err, null);

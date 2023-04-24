@@ -7,7 +7,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import EditStudentModal from "../components/EditRecordModal";
+import EditRecordModal from "../components/EditRecordModal";
 import RemoveRecordModal from "../components/RemoveRecordModal";
 import AddNewRecord from "../components/AddNewRecord";
 import RetrieveAccounts from "../components/retrieveAccounts";
@@ -74,10 +74,25 @@ function AdminStudents() {
                     <TableCell>
                       <div className="actions">
                         {/*BUTTON TO EDIT STUDENT DATA*/}
-                        <EditStudentModal />
+                        <EditRecordModal
+                          details={{
+                            accountId: row.StudentId,
+                            userType: row.UserType,
+                            id: row.ID,
+                            name: row.Name,
+                            course: row.Course,
+                            role: row.Role,
+                            email: row.Email,
+                          }}
+                        />
 
                         {/*BUTTON TO REMOVE STUDENT DATA*/}
-                        <RemoveRecordModal details={{accountId : row.StudentId, userType : row.UserType}}/>
+                        <RemoveRecordModal
+                          details={{
+                            accountId: row.StudentId,
+                            userType: row.UserType,
+                          }}
+                        />
                       </div>
                     </TableCell>
                   </TableRow>

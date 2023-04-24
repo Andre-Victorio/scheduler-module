@@ -10,4 +10,5 @@ router.post("/retrieveAccounts", accountController.retrieveAccounts);
 // router.post("/login", accountController.findByEmailAndPassword);
 // // http://localhost:3001/api/posts/
 router.patch("/disableAccount", accountController.disableAccount);
+router.patch("/updateAccount", accountController.updateAccount);
 module.exports = router;

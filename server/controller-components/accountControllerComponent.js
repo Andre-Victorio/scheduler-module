@@ -42,15 +42,15 @@ exports.create = function (req, res) {
   } else {
     findByEmail(newAccount["email"], function (status) {
       if (status === 200) {
-        x.createAccount(newAccount, function (err, account) {
+        x.createAccount(newAccount, function (err, accountId) {
           if (err) {
             res.send(err);
           }
           res.json({
             error: false,
             status: 200,
-            message: "Account added successfully! Please log in.",
-            data: account,
+            message: "New record has successfully been added.",
+            data: accountId,
           });
         });
       } else {
@@ -113,3 +113,48 @@ exports.disableAccount = (req, res) => {
     }
   });
 };
+
+exports.updateAccount = (req, res) => {
+  var x = req.body["userType"] === "student" ? StudentAccount : FacultyAccount;
+  const data = req.body;
+  const dataJson =
+    data.userType === "student"
+      ? {
+          id: data.id,
+          name: data.name,
+          course: data.course,
+          role: data.role,
+          email: data.email,
+        }
+      : {
+          id: data.id,
+          name: data.name,
+          role: data.role,
+          email: data.email,
+        };
+  if (data.oldEmail !== data.email) {
+    findByEmail(data.email, function (status) {
+      if (status === 200) {
+        updateAccount(data.accountId, x, dataJson, res);
+      } else {
+        res.status(409).send({error: true, message: "Email already exists."});
+      }
+    });
+  } else {
+    updateAccount(data.accountId, x, dataJson, res);
+  }
+};
+
+function updateAccount(accountId, x, dataJson, res) {
+  x.updateAccount(accountId, dataJson, function (err, account) {
+    if (err) {
+      res.send(err);
+    }
+    res.json({
+      error: false,
+      status: 200,
+      message: "Account information has been updated.",
+      data: account,
+    });
+  });
+}

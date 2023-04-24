@@ -38,13 +38,13 @@ function ChildModal() {
         open={open}
         onClose={handleClose}
         aria-labelledby="child-modal-title"
-        aria-describedby="child-modal-description"
+        aria-describedby="alert"
       >
         <Box sx={{...style, width: 200}}>
           {/* <h5 id="child-modal-description">
               New record has successfully been added.
             </h5> */}
-          <div id="alert"></div>
+          <h5 id="alert"> </h5>
           <div className="actions">
             <button onClick={handleClose}>OK</button>
           </div>
@@ -121,19 +121,10 @@ function AddNewRecord() {
         "Content-Type": "application/json",
       },
     });
-
+    var responseData = await response.json();
     var alertField = document.getElementById("alert");
-    console.log(response);
-    if (response.status === 200) {
-      alertField.innerHTML =
-        "Successfuly Added " + inputs.name + " to the database.";
-    } else if (response.status === 409) {
-      alertField.innerHTML = "Email already exists.";
-    } else {
-      alertField.innerHTML = "Server could not process at the moment";
-    }
+    alertField.innerHTML = responseData.message;
   }
-
   return (
     <>
       <div>
