@@ -87,8 +87,9 @@ CREATE TABLE `faculty` (
   `Role` varchar(50) NOT NULL,
   `UserType` varchar(25) NOT NULL,
   `ID` varchar(25) NOT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`FacultyId`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,7 +98,7 @@ CREATE TABLE `faculty` (
 
 LOCK TABLES `faculty` WRITE;
 /*!40000 ALTER TABLE `faculty` DISABLE KEYS */;
-INSERT INTO `faculty` VALUES (3,NULL,'111','1','1234','instructor','faculty','11'),(4,NULL,'1','111','1234','instructor','faculty','1');
+INSERT INTO `faculty` VALUES (3,NULL,'111','1','1234','instructor','faculty','11',0),(4,NULL,'1','111','1234','instructor','faculty','1',0),(5,NULL,'124213123','4123213','1234','lab technician','faculty','213214213',1),(6,NULL,'44444','4444','1234','lab technician','faculty','44444',0);
 /*!40000 ALTER TABLE `faculty` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -117,8 +118,9 @@ CREATE TABLE `student` (
   `ID` varchar(25) NOT NULL,
   `Role` varchar(25) NOT NULL,
   `UserType` varchar(25) NOT NULL,
+  `isDeleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`StudentId`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -127,7 +129,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (21,NULL,'111','11','1234','11','student','student');
+INSERT INTO `student` VALUES (21,NULL,'111','11','1234','11','student','student',0),(40,NULL,'41234123','zxczxcasdasd','1234','555551123','student','student',1),(41,'12312321','tasdasdasd','zxdqweasda','1234','czxrqweqw','0','student',0);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -140,4 +142,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-23 13:17:57
+-- Dump completed on 2023-04-24 21:01:01
