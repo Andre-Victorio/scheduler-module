@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useCallback} from "react";
 import "./styles.css";
 import {Link} from "react-router-dom";
 import {FaAngleDoubleRight} from "react-icons/fa";
 import RetrieveAccounts from "../components/retrieveAccounts";
 import {capitalizeWords} from "../components/utility";
+import {useState, useEffect} from "react";
 //FACULTY CARDS - Dummy data. Represents faculty in the database.
 function Create_meeting() {
   // const [faculty_cards] = useState([
@@ -45,6 +46,52 @@ function Create_meeting() {
   //   },
   // ]);
   var accounts = RetrieveAccounts("faculty");
+  const [state, setstate] = useState({
+    query: "",
+    list: [],
+  });
+
+  const handleChange = (e) => {
+    const results = accounts.filter((account) => {
+      if (e.target.value === "") return accounts;
+      var x =
+        account.Role.toLowerCase().includes(e.target.value.toLowerCase()) ===
+        true
+          ? account.Role.toLowerCase().includes(e.target.value.toLowerCase())
+          : account.Name.toLowerCase().includes(e.target.value.toLowerCase());
+      return x;
+    });
+    setstate({
+      query: e.target.value,
+      list: results,
+    });
+  };
+  const displayResult = useCallback(() => {
+    var cards = document.getElementById("facultyCards").children;
+    const foundElements = parseList(state.list);
+    console.log(state.list);
+    for (var x = 0; x < cards.length; x++) {
+      if (!foundElements.includes(parseInt(cards[x].id))) {
+        cards[x].style.display = "none";
+        // console.log(cards[x]);
+      } else {
+        cards[x].style.display = "revert";
+      }
+      // console.log(foundElements.includes(parseInt(cards[x].id)));
+    }
+  }, [state.list]);
+
+  useEffect(() => {
+    displayResult();
+  }, [displayResult]);
+
+  function parseList(list) {
+    var data = [];
+    for (var x in list) {
+      data.push(list[x].FacultyId);
+    }
+    return data;
+  }
   return (
     <div className="page">
       <section>
@@ -54,27 +101,33 @@ function Create_meeting() {
 
           {/*SEARCH BAR - SEARCH FACULTY BY NAME OR ROLE 'Instructor  or Tab Tech*/}
           <div className="searchbar">
-            <input type="text" placeholder="Search"></input>
+            <input
+              type="text"
+              placeholder="Search"
+              value={state.query}
+              onChange={handleChange}
+            ></input>
             <button>Search</button>
           </div>
         </div>
 
         {/*FACULTY CARDS - DISPLAY FACULTY INSIDE DATABASE*/}
-        <div className="faculty_cards">
-          {accounts.map((card, i) => (
-            <div key={i} className="card">
-              <h3>
-                <b>{card.img}</b>
-              </h3>
-              <h3>{capitalizeWords(card.Name)}</h3>
-              <h6>{capitalizeWords(card.Role)}</h6>
-
-              {/*REDIRECT TO FACULTY'S AVAILABLE SCHEDULE*/}
-              <Link to="/available_sched">
-                <FaAngleDoubleRight className="icon" />
-              </Link>
-            </div>
-          ))}
+        <div style={{width: "180vh"}}>
+          <div className="faculty_cards" id="facultyCards">
+            {accounts.map((card) => (
+              <div key={card.FacultyId} className="card" id={card.FacultyId}>
+                <h3>
+                  <b>{card.img}</b>
+                </h3>
+                <h3>{capitalizeWords(card.Name)}</h3>
+                <h6>{capitalizeWords(card.Role)}</h6>
+                {/*REDIRECT TO FACULTY'S AVAILABLE SCHEDULE*/}
+                <Link to="/available_sched">
+                  <FaAngleDoubleRight className="icon" />
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </div>
