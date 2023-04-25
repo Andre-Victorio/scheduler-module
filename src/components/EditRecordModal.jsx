@@ -109,12 +109,16 @@ function EditRecordModal(props) {
   function RoleSelectionHandler(props) {
     const tableData = [
       {
-        value: "instructor",
-        name: "Instructor",
+        value: "full time instructor",
+        name: "Full Time Instructor",
       },
       {
         value: "lab technician",
         name: "Lab Technician",
+      },
+      {
+        value: "program coordinator",
+        name: "Program Coordinator",
       },
     ];
     const x =

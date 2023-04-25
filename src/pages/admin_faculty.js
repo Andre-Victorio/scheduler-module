@@ -11,6 +11,7 @@ import EditRecordModal from "../components/EditRecordModal";
 import RemoveRecordModal from "../components/RemoveRecordModal";
 import AddNewRecord from "../components/AddNewRecord";
 import RetrieveAccounts from "../components/retrieveAccounts";
+import {capitalizeWords} from "../components/utility";
 import "./styles.css";
 
 //DISPLAYS ALL STUDENT RECORDS IN THE DATABASE. ONLY FACULTY & LAB TECH
@@ -68,7 +69,7 @@ function AdminFaculty() {
                   <TableRow key={row.FacultyId}>
                     <TableCell>{row.ID}</TableCell>
                     <TableCell>{row.Name}</TableCell>
-                    <TableCell>{row.Role}</TableCell>
+                    <TableCell>{capitalizeWords(row.Role)}</TableCell>
                     <TableCell>{row.Email}</TableCell>
                     <TableCell>
                       <div className="actions">

@@ -41,9 +41,6 @@ function ChildModal() {
         aria-describedby="alert"
       >
         <Box sx={{...style, width: 200}}>
-          {/* <h5 id="child-modal-description">
-              New record has successfully been added.
-            </h5> */}
           <h5 id="alert"> </h5>
           <div className="actions">
             <button onClick={handleClose}>OK</button>
@@ -63,11 +60,6 @@ function AddNewRecord() {
   const handleAddAccountFormChange = (event) => {
     const name = event.target.name;
     var value;
-    // if (name === "userType") {
-    //   value = event.target.options[event.target.selectedIndex].text;
-    // } else {
-    //   value = event.target.value;
-    // }
     value = event.target.value;
     roleSelectionHandler(value, name);
     console.log(inputs);
@@ -85,7 +77,7 @@ function AddNewRecord() {
       while (roleSelection.hasChildNodes()) {
         roleSelection.removeChild(roleSelection.firstChild);
       }
-      var facultyUserTypes = ["Instructor", "Lab Technician"];
+      var facultyUserTypes = ["Full Time Instructor", "Lab Technician", "Program Coordinator"];
       var option = document.createElement("option");
       if (value === "student") {
         roleSelection.disabled = true;
@@ -95,7 +87,7 @@ function AddNewRecord() {
         setInputs((values) => ({...values, role: value}));
       } else if (value === "faculty") {
         roleSelection.disabled = false;
-        setInputs((values) => ({...values, role: "instructor"}));
+        setInputs((values) => ({...values, role: "full time instructor"}));
         for (var x in facultyUserTypes) {
           var options = document.createElement("option");
           options.value = facultyUserTypes[x].toLowerCase();
