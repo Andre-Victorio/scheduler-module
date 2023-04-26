@@ -22,7 +22,7 @@ function App() {
       {/*'Navbar' - STUDENT VIEW*/}
       {/*'FacultyNavbar' - Faculty VIEW*/}
       {/*'AdminNavbar' - Admin VIEW*/}
-      <Navbar />
+      <FacultyNavbar />
       <div className="container">
         <Routes>
           <Route path="/home" element={<Home />} />

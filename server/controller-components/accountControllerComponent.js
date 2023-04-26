@@ -1,6 +1,7 @@
 "use strict";
 const StudentAccount = require("../model-components/studentModelComponent");
 const FacultyAccount = require("../model-components/facultyModelComponent");
+const Schedule = require("../model-components/scheduleModelComponent");
 const findByEmail = (req, res) => {
   simultaneouslyQueryEmail(req, function (status) {
     res(status);
@@ -157,4 +158,76 @@ function updateAccount(accountId, x, dataJson, res) {
       data: account,
     });
   });
+
+  exports.updateAccount = (req, res) => {
+    var x =
+      req.body["userType"] === "student" ? StudentAccount : FacultyAccount;
+    const data = req.body;
+    const dataJson =
+      data.userType === "student"
+        ? {
+            id: data.id,
+            name: data.name,
+            course: data.course,
+            role: data.role,
+            email: data.email,
+          }
+        : {
+            id: data.id,
+            name: data.name,
+            role: data.role,
+            email: data.email,
+          };
+    if (data.oldEmail !== data.email) {
+      findByEmail(data.email, function (status) {
+        if (status === 200) {
+          updateAccount(data.accountId, x, dataJson, res);
+        } else {
+          res.status(409).send({error: true, message: "Email already exists."});
+        }
+      });
+    } else {
+      updateAccount(data.accountId, x, dataJson, res);
+    }
+  };
 }
+
+exports.addSchedule = (req, res) => {
+  const newSchedule = new Schedule(req.body);
+  //handles null error
+  console.log(req.body);
+  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
+    res
+      .status(400)
+      .send({error: true, message: "Please provide all required field"});
+  } else {
+    // findByEmail(newAccount["email"], function (status) {
+    //   if (status === 200) {
+    //     x.createAccount(newAccount, function (err, accountId) {
+    //       if (err) {
+    //         res.send(err);
+    //       }
+    //       res.json({
+    //         error: false,
+    //         status: 200,
+    //         message: "New record has successfully been added.",
+    //         data: accountId,
+    //       });
+    //     });
+    //   } else {
+    //     res.status(409).send({error: true, message: "Email already exists."});
+    //   }
+    // });
+    Schedule.addSchedule(newSchedule, function (err, scheduleId) {
+      if (err) {
+        res.send(err);
+      }
+      res.json({
+        error: false,
+        status: 200,
+        message: "New schedule has successfully been added.",
+        data: scheduleId,
+      });
+    });
+  }
+};

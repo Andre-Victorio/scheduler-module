@@ -11,4 +11,5 @@ router.post("/retrieveAccounts", accountController.retrieveAccounts);
 // // http://localhost:3001/api/posts/
 router.patch("/disableAccount", accountController.disableAccount);
 router.patch("/updateAccount", accountController.updateAccount);
+router.post("/addSchedule", accountController.addSchedule);
 module.exports = router;
