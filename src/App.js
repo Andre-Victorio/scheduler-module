@@ -18,7 +18,7 @@ import AdminFaculty from "./pages/admin_faculty";
 import Login from "./components/LogIn";
 function App() {
   return (
-    <>
+    <div id="wrapper">
       {/*'Navbar' - STUDENT VIEW*/}
       {/*'FacultyNavbar' - Faculty VIEW*/}
       {/*'AdminNavbar' - Admin VIEW*/}
@@ -39,7 +39,7 @@ function App() {
           <Route path="/admin_faculty" element={<AdminFaculty />} />
         </Routes>
       </div>
-    </>
+    </div>
   );
 }
 

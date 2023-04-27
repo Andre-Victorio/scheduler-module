@@ -1,6 +1,7 @@
 "use strict";
 const StudentAccount = require("../model-components/studentModelComponent");
 const FacultyAccount = require("../model-components/facultyModelComponent");
+const AdminAccount = require("../model-components/adminModelComponent");
 const Schedule = require("../model-components/scheduleModelComponent");
 const findByEmail = (req, res) => {
   simultaneouslyQueryEmail(req, function (status) {
@@ -129,9 +130,23 @@ exports.login = function (req, res) {
                 .status(200)
                 .json({success: true, accountId, accountStatus, name});
             } else {
-              res
-                .status(401)
-                .json({success: false, message: "Invalid credentials"});
+              AdminAccount.findByEmailAndPassword(
+                req.body.email,
+                req.body.password,
+                function (err, count, accountId, accountStatus, name) {
+                  if (err) {
+                    res.status(err.statusCode).json({success: false});
+                  } else if (count > 0) {
+                    res
+                      .status(200)
+                      .json({success: true, accountId, accountStatus, name});
+                  } else {
+                    res
+                      .status(401)
+                      .json({success: false, message: "Invalid credentials"});
+                  }
+                }
+              );
             }
           }
         );
