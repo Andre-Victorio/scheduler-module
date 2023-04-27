@@ -27,8 +27,12 @@ CREATE TABLE `administrator` (
   `Name` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
+  `Role` varchar(25) NOT NULL,
+  `UserType` varchar(25) NOT NULL,
+  `ID` varchar(25) NOT NULL,
+  `isDeleted` tinyint(1) NOT NULL,
   PRIMARY KEY (`AdminId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,6 +41,7 @@ CREATE TABLE `administrator` (
 
 LOCK TABLES `administrator` WRITE;
 /*!40000 ALTER TABLE `administrator` DISABLE KEYS */;
+INSERT INTO `administrator` VALUES (1,'admin','admin@gmail.com','admin','admin','admin','123456789',0);
 /*!40000 ALTER TABLE `administrator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -80,7 +85,6 @@ DROP TABLE IF EXISTS `faculty`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `faculty` (
   `FacultyId` int(11) NOT NULL AUTO_INCREMENT,
-  `Schedule` datetime DEFAULT NULL,
   `Name` varchar(50) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Password` varchar(50) NOT NULL,
@@ -89,7 +93,7 @@ CREATE TABLE `faculty` (
   `ID` varchar(25) NOT NULL,
   `isDeleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`FacultyId`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,8 +102,38 @@ CREATE TABLE `faculty` (
 
 LOCK TABLES `faculty` WRITE;
 /*!40000 ALTER TABLE `faculty` DISABLE KEYS */;
-INSERT INTO `faculty` VALUES (3,NULL,'111','1','1234','instructor','faculty','11',0),(4,NULL,'1','111','1234','instructor','faculty','1',0),(5,NULL,'124213123','4123213','1234','lab technician','faculty','213214213',1),(6,NULL,'44444','4444','1234','lab technician','faculty','44444',0);
+INSERT INTO `faculty` VALUES (11,'John Anthony Torrejas','123@g.c','1234','program coordinator','faculty','18102597',1),(12,'2','2@g','1234','program coordinator','faculty','2',0),(13,'3','3@g','1234','lab technician','faculty','3',0),(16,'7','7@g','1234','full time instructor','faculty','7',0),(17,'4','4@g','1234','lab technician','faculty','4',0),(18,'5','5@g','1234','program coordinator','faculty','5',0),(19,'6','6@g','1234','full time instructor','faculty','6',0),(20,'z','z@g','1234','program coordinator','faculty','z',0),(21,'x','x@g','1234','program coordinator','faculty','x',0),(22,'q33','q44@g','1234','full time instructor','faculty','qcc',0);
 /*!40000 ALTER TABLE `faculty` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `schedule`
+--
+
+DROP TABLE IF EXISTS `schedule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `schedule` (
+  `ScheduleId` int(11) NOT NULL AUTO_INCREMENT,
+  `FacultyId` int(11) NOT NULL,
+  `Date` date NOT NULL,
+  `StartTime` time NOT NULL,
+  `EndTime` time NOT NULL,
+  `Location` varchar(50) NOT NULL,
+  PRIMARY KEY (`ScheduleId`),
+  KEY `fk_facultyId` (`FacultyId`),
+  CONSTRAINT `fk_facultyId` FOREIGN KEY (`FacultyId`) REFERENCES `faculty` (`FacultyId`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `schedule`
+--
+
+LOCK TABLES `schedule` WRITE;
+/*!40000 ALTER TABLE `schedule` DISABLE KEYS */;
+INSERT INTO `schedule` VALUES (7,11,'2023-04-27','01:29:00','01:35:00','1');
+/*!40000 ALTER TABLE `schedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -120,7 +154,7 @@ CREATE TABLE `student` (
   `UserType` varchar(25) NOT NULL,
   `isDeleted` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`StudentId`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -129,7 +163,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (21,NULL,'111','11','1234','11','student','student',0),(40,NULL,'41234123','zxczxcasdasd','1234','555551123','student','student',1),(41,'12312321','tasdasdasd','zxdqweasda','1234','czxrqweqw','0','student',0);
+INSERT INTO `student` VALUES (44,'11','1','1@1','1234','12222222','student','student',0);
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -142,4 +176,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-24 21:01:01
+-- Dump completed on 2023-04-27 22:51:47
