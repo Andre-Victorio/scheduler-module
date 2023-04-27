@@ -86,22 +86,59 @@ exports.retrieveAccounts = function (req, res) {
 //   });
 // };
 
-// exports.findByEmailAndPassword = function (req, res) {
-//   const newAccount = new Account(req.body);
-//   Account.findByEmailAndPassword(
-//     newAccount["email"],
-//     newAccount["password"],
-//     function (err, count, accountId, accountStatus) {
-//       if (err) {
-//         res.status(401).json({ success: false });
-//       } else if (count > 0) {
-//         res.status(200).json({ success: true, accountId, accountStatus });
-//       } else {
-//         res.status(401).json({ success: false });
-//       }
+// const simultaneouslyQueryEmail = (req, res) => {
+//   StudentAccount.findByEmail(req, function (err, account) {
+//     if (err) {
+//       res.send(err);
 //     }
-//   );
+//     if (Object.keys(account).length !== 0) {
+//       res(409);
+//     } else {
+//       FacultyAccount.findByEmail(req, function (err, account) {
+//         if (err) {
+//           res.send(err);
+//         }
+//         if (Object.keys(account).length !== 0) {
+//           res(409);
+//         } else {
+//           res(200);
+//         }
+//       });
+//     }
+//   });
 // };
+
+exports.login = function (req, res) {
+  StudentAccount.findByEmailAndPassword(
+    req.body.email,
+    req.body.password,
+    function (err, count, accountId, accountStatus, name) {
+      if (err) {
+        res.status(err.statusCode).json({success: false});
+      } else if (count > 0) {
+        res.status(200).json({success: true, accountId, accountStatus, name});
+      } else {
+        FacultyAccount.findByEmailAndPassword(
+          req.body.email,
+          req.body.password,
+          function (err, count, accountId, accountStatus, name) {
+            if (err) {
+              res.status(err.statusCode).json({success: false});
+            } else if (count > 0) {
+              res
+                .status(200)
+                .json({success: true, accountId, accountStatus, name});
+            } else {
+              res
+                .status(401)
+                .json({success: false, message: "Invalid credentials"});
+            }
+          }
+        );
+      }
+    }
+  );
+};
 
 exports.disableAccount = (req, res) => {
   var x = req.body["userType"] === "student" ? StudentAccount : FacultyAccount;
@@ -158,38 +195,6 @@ function updateAccount(accountId, x, dataJson, res) {
       data: account,
     });
   });
-
-  exports.updateAccount = (req, res) => {
-    var x =
-      req.body["userType"] === "student" ? StudentAccount : FacultyAccount;
-    const data = req.body;
-    const dataJson =
-      data.userType === "student"
-        ? {
-            id: data.id,
-            name: data.name,
-            course: data.course,
-            role: data.role,
-            email: data.email,
-          }
-        : {
-            id: data.id,
-            name: data.name,
-            role: data.role,
-            email: data.email,
-          };
-    if (data.oldEmail !== data.email) {
-      findByEmail(data.email, function (status) {
-        if (status === 200) {
-          updateAccount(data.accountId, x, dataJson, res);
-        } else {
-          res.status(409).send({error: true, message: "Email already exists."});
-        }
-      });
-    } else {
-      updateAccount(data.accountId, x, dataJson, res);
-    }
-  };
 }
 
 exports.addSchedule = (req, res) => {
@@ -201,23 +206,6 @@ exports.addSchedule = (req, res) => {
       .status(400)
       .send({error: true, message: "Please provide all required field"});
   } else {
-    // findByEmail(newAccount["email"], function (status) {
-    //   if (status === 200) {
-    //     x.createAccount(newAccount, function (err, accountId) {
-    //       if (err) {
-    //         res.send(err);
-    //       }
-    //       res.json({
-    //         error: false,
-    //         status: 200,
-    //         message: "New record has successfully been added.",
-    //         data: accountId,
-    //       });
-    //     });
-    //   } else {
-    //     res.status(409).send({error: true, message: "Email already exists."});
-    //   }
-    // });
     Schedule.addSchedule(newSchedule, function (err, scheduleId) {
       if (err) {
         res.send(err);

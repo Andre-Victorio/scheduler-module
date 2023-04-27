@@ -15,16 +15,17 @@ import AdminAppointments from "./pages/admin_appointments";
 import AdminStudents from "./pages/admin_students";
 import Navbar from "./components/student_navbar";
 import AdminFaculty from "./pages/admin_faculty";
-
+import Login from "./components/LogIn";
 function App() {
   return (
     <>
       {/*'Navbar' - STUDENT VIEW*/}
       {/*'FacultyNavbar' - Faculty VIEW*/}
       {/*'AdminNavbar' - Admin VIEW*/}
-      <FacultyNavbar />
+      {/* <FacultyNavbar /> */}
       <div className="container">
         <Routes>
+          <Route path="/" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/my_meetings" element={<My_meetings />} />
           <Route path="/create_meeting" element={<Create_meeting />} />

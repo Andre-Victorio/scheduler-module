@@ -217,7 +217,7 @@ function AddNewRecord() {
                     <b>Email</b>
                   </h3>
                   <input
-                    type="text"
+                    type="email"
                     placeholder="Email"
                     onChange={handleAddAccountFormChange}
                     name="email"

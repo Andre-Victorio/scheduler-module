@@ -50,34 +50,39 @@ class Student {
     );
   }
 
-  static retrieveAllAccounts (result) {
-    dbConn.query("SELECT * FROM Student WHERE isDeleted = 0", function (err, res) {
+  static retrieveAllAccounts(result) {
+    dbConn.query(
+      "SELECT * FROM Student WHERE isDeleted = 0",
+      function (err, res) {
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+        } else {
+          console.log("posts: ", res);
+          result(null, res);
+        }
+      }
+    );
+  }
+
+  static findByEmailAndPassword(email, password, result) {
+    const query =
+      "SELECT * FROM Student WHERE email = ? AND password = ? AND isDeleted = 0";
+    dbConn.query(query, [email, password], function (err, res) {
       if (err) {
-        console.log("error: ", err);
-        result(null, err);
+        console.log(err);
+        result(err, null);
       } else {
-        console.log("posts: ", res);
-        result(null, res);
+        result(
+          null,
+          res.length,
+          Object.values(res)[0]?.StudentId,
+          Object.values(res)[0]?.UserType,
+          Object.values(res)[0]?.Name
+        );
       }
     });
-  };
-
-  // static findByEmailAndPassword(email, password, result) {
-  //   const query = "SELECT * FROM accounts WHERE email = ? AND password = ?";
-  //   dbConn.query(query, [email, password], function (err, res) {
-  //     if (err) {
-  //       console.log(err);
-  //       result(err, null);
-  //     } else {
-  //       result(
-  //         null,
-  //         res.length,
-  //         Object.values(res)[0]?.accountId,
-  //         Object.values(res)[0]?.status
-  //       );
-  //     }
-  //   });
-  // }
+  }
 
   static disableAccount(accountId, result) {
     const query = "UPDATE Student SET isDeleted = 1 WHERE StudentId = ?";

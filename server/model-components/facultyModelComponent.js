@@ -51,32 +51,37 @@ class Faculty {
   }
 
   static retrieveAllAccounts(result) {
-    dbConn.query("SELECT * FROM Faculty WHERE isDeleted = 0", function (err, res) {
+    dbConn.query(
+      "SELECT * FROM Faculty WHERE isDeleted = 0",
+      function (err, res) {
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+        } else {
+          console.log("posts: ", res);
+          result(null, res);
+        }
+      }
+    );
+  }
+  static findByEmailAndPassword(email, password, result) {
+    const query =
+      "SELECT * FROM Faculty WHERE email = ? AND password = ? AND isDeleted = 0";
+    dbConn.query(query, [email, password], function (err, res) {
       if (err) {
-        console.log("error: ", err);
-        result(null, err);
+        console.log(err);
+        result(err, null);
       } else {
-        console.log("posts: ", res);
-        result(null, res);
+        result(
+          null,
+          res.length,
+          Object.values(res)[0]?.FacultyId,
+          Object.values(res)[0]?.UserType,
+          Object.values(res)[0]?.Name
+        );
       }
     });
   }
-  // static findByEmailAndPassword(email, password, result) {
-  //   const query = "SELECT * FROM accounts WHERE email = ? AND password = ?";
-  //   dbConn.query(query, [email, password], function (err, res) {
-  //     if (err) {
-  //       console.log(err);
-  //       result(err, null);
-  //     } else {
-  //       result(
-  //         null,
-  //         res.length,
-  //         Object.values(res)[0]?.accountId,
-  //         Object.values(res)[0]?.status
-  //       );
-  //     }
-  //   });
-  // }
 
   static disableAccount(accountId, result) {
     const query = "UPDATE Faculty SET isDeleted = 1 WHERE FacultyId  = ?";
