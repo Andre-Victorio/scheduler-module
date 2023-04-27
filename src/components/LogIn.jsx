@@ -12,13 +12,36 @@ const style = {
   boxShadow: 24,
   p: 4,
 };
-function ChildModal() {
-  const [open, setOpen] = React.useState(false);
+function ChildModal(props) {
+  const [open, setOpen] = React.useState();
+  const [alert, setAlert] = React.useState(false);
+  var responseData = props.data;
+  React.useEffect(() => {
+    var x;
+    if (responseData.success) {
+      // alertField.innerHTML = "Welcome back " + responseData.name;
+      x = "Welcome back " + responseData.name;
+    } else {
+      x = responseData.message;
+    }
+    setAlert(x);
+  }, [responseData]);
+
   const handleOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+    if (responseData.userType === "admin") {
+      document.getElementById("adminNavbar").hidden = false;
+      document.getElementById("adminNavbarHome").click();
+    } else if (responseData.userType === "faculty") {
+      document.getElementById("facultyNavbar").hidden = false;
+      document.getElementById("facultyNavbarHome").click();
+    } else {
+      document.getElementById("studentNavbar").hidden = false;
+      document.getElementById("studentNavbarHome").click();
+    }
   };
 
   return (
@@ -34,7 +57,7 @@ function ChildModal() {
         aria-describedby="alert"
       >
         <Box sx={{...style, width: 200}}>
-          <h5 id="alert"> </h5>
+          <h5 id="alert"> {alert}</h5>
           <div className="actions">
             <button onClick={handleClose}>OK</button>
           </div>
@@ -44,6 +67,7 @@ function ChildModal() {
   );
 }
 function Login() {
+  const [responseData, setResponseData] = React.useState(false);
   const handleLoginSubmit = (event) => {
     event.preventDefault();
 
@@ -69,13 +93,7 @@ function Login() {
       },
     });
     var responseData = await response.json();
-    var alertField = document.getElementById("alert");
-    if (responseData.success) {
-      alertField.innerHTML = "Welcome back " + responseData.name;
-    } else {
-      alertField.innerHTML = responseData.message;
-    }
-
+    setResponseData(responseData);
     console.log(responseData);
   }
   return (
@@ -95,7 +113,7 @@ function Login() {
           <input type="password" id="form2Example2" name="password" required />
         </div>
         <div>
-          <ChildModal />
+          <ChildModal data={responseData} />
         </div>
       </form>
     </div>

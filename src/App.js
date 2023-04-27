@@ -15,14 +15,38 @@ import AdminAppointments from "./pages/admin_appointments";
 import AdminStudents from "./pages/admin_students";
 import Navbar from "./components/student_navbar";
 import AdminFaculty from "./pages/admin_faculty";
+import {Link} from "react-router-dom";
 import Login from "./components/LogIn";
 function App() {
   return (
-    <div id="wrapper">
+    <>
       {/*'Navbar' - STUDENT VIEW*/}
       {/*'FacultyNavbar' - Faculty VIEW*/}
       {/*'AdminNavbar' - Admin VIEW*/}
-      {/* <FacultyNavbar /> */}
+      <div id="facultyNavbar" hidden>
+        <FacultyNavbar />
+        <Link
+          to="/faculty_home"
+          className="bottom-navbar-link"
+          id="facultyNavbarHome"
+        ></Link>
+      </div>
+      <div id="adminNavbar" hidden>
+        <AdminNavbar />
+        <Link
+          to="/admin_dashboard"
+          className="side-navbar-link"
+          id="adminNavbarHome"
+        ></Link>
+      </div>
+      <div id="studentNavbar" hidden>
+        <Navbar />
+        <Link
+          to="/home"
+          className="bottom-navbar-link"
+          id="studentNavbarHome"
+        ></Link>
+      </div>
       <div className="container">
         <Routes>
           <Route path="/" element={<Login />} />
@@ -39,7 +63,7 @@ function App() {
           <Route path="/admin_faculty" element={<AdminFaculty />} />
         </Routes>
       </div>
-    </div>
+    </>
   );
 }
 
