@@ -1,11 +1,11 @@
 export function capitalizeWords(str) {
-  console.log(str);
+  var parsedStr;
   if (str !== null) {
-    str
+    parsedStr = str
       .toLowerCase()
       .split(" ")
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
       .join(" ");
   }
-  return str;
+  return parsedStr;
 }
