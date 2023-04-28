@@ -78,7 +78,8 @@ class Student {
           res.length,
           Object.values(res)[0]?.StudentId,
           Object.values(res)[0]?.UserType,
-          Object.values(res)[0]?.Name
+          Object.values(res)[0]?.Name,
+          Object.values(res)[0]?.Role
         );
       }
     });

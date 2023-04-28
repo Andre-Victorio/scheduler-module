@@ -113,31 +113,33 @@ exports.login = function (req, res) {
   StudentAccount.findByEmailAndPassword(
     req.body.email,
     req.body.password,
-    function (err, count, accountId, userType, name) {
+    function (err, count, accountId, userType, name, role) {
       if (err) {
         res.status(err.statusCode).json({success: false});
       } else if (count > 0) {
-        res.status(200).json({success: true, accountId, userType, name});
+        res.status(200).json({success: true, accountId, userType, name, role});
       } else {
         FacultyAccount.findByEmailAndPassword(
           req.body.email,
           req.body.password,
-          function (err, count, accountId, userType, name) {
+          function (err, count, accountId, userType, name, role) {
             if (err) {
               res.status(err.statusCode).json({success: false});
             } else if (count > 0) {
-              res.status(200).json({success: true, accountId, userType, name});
+              res
+                .status(200)
+                .json({success: true, accountId, userType, name, role});
             } else {
               AdminAccount.findByEmailAndPassword(
                 req.body.email,
                 req.body.password,
-                function (err, count, accountId, userType, name) {
+                function (err, count, accountId, userType, name, role) {
                   if (err) {
                     res.status(err.statusCode).json({success: false});
                   } else if (count > 0) {
                     res
                       .status(200)
-                      .json({success: true, accountId, userType, name});
+                      .json({success: true, accountId, userType, name, role});
                   } else {
                     res
                       .status(401)

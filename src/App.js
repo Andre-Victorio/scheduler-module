@@ -18,6 +18,28 @@ import AdminFaculty from "./pages/admin_faculty";
 import {Link} from "react-router-dom";
 import Login from "./components/LogIn";
 function App() {
+  React.useEffect(() => {
+    const adminNavbar = document.getElementById("adminNavbar");
+    const facultyNavbar = document.getElementById("facultyNavbar");
+    const studentNavbar = document.getElementById("studentNavbar");
+    var userType = sessionStorage.getItem("userType");
+    if (userType !== null) {
+      document.getElementById("loginForm").hidden = true;
+      if (window.location.href === "http://localhost:3000/") {
+        adminNavbar.hidden = true;
+        facultyNavbar.hidden = true;
+        studentNavbar.hidden = true;
+      } else if (userType === "admin") {
+        adminNavbar.hidden = false;
+      } else if (userType === "faculty") {
+        facultyNavbar.hidden = false;
+      } else if (userType === "student") {
+        studentNavbar.hidden = false;
+      }
+    } else {
+      document.getElementById("loginForm").hidden = false;
+    }
+  }, []);
   return (
     <>
       {/*'Navbar' - STUDENT VIEW*/}

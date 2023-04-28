@@ -21,6 +21,13 @@ function ChildModal(props) {
     if (responseData.success) {
       // alertField.innerHTML = "Welcome back " + responseData.name;
       x = "Welcome back " + responseData.name;
+      window.history.pushState(null, null, window.location.href);
+
+      window.onpopstate = function (event) {
+        if (window.location.href === "http://localhost:3000/") {
+          window.history.go(1);
+        }
+      };
     } else {
       x = responseData.message;
     }
@@ -32,17 +39,30 @@ function ChildModal(props) {
   };
   const handleClose = () => {
     setOpen(false);
-    if (responseData.userType === "admin") {
-      document.getElementById("adminNavbar").hidden = false;
-      document.getElementById("adminNavbarHome").click();
-    } else if (responseData.userType === "faculty") {
-      document.getElementById("facultyNavbar").hidden = false;
-      document.getElementById("facultyNavbarHome").click();
-    } else {
-      document.getElementById("studentNavbar").hidden = false;
-      document.getElementById("studentNavbarHome").click();
+    if (responseData.success) {
+      if (responseData.userType === "admin") {
+        handleRoutes("adminNavbar");
+        handleSessions();
+      } else if (responseData.userType === "faculty") {
+        handleRoutes("facultyNavbar");
+        handleSessions();
+      } else {
+        handleRoutes("studentNavbar");
+        handleSessions();
+      }
     }
   };
+
+  function handleRoutes(userNavbar) {
+    document.getElementById(userNavbar).hidden = false;
+    document.getElementById(userNavbar + "Home").click();
+  }
+
+  function handleSessions() {
+    sessionStorage.setItem("userType", responseData.userType);
+    sessionStorage.setItem("name", responseData.name);
+    sessionStorage.setItem("role", responseData.role);
+  }
 
   return (
     <React.Fragment>
@@ -102,7 +122,7 @@ function Login() {
       // className=" d-flex justify-content-center align-items-center h-75"
       className="loginContainer"
     >
-      <form onSubmit={handleLoginSubmit} id="loginForm">
+      <form onSubmit={handleLoginSubmit} id="loginForm" hidden>
         <h2 style={{textAlign: "center", marginBottom: "3rem"}}>Login</h2>
         <div>
           <label htmlFor="form2Example1">Email address</label>

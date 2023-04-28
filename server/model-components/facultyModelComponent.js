@@ -77,7 +77,8 @@ class Faculty {
           res.length,
           Object.values(res)[0]?.FacultyId,
           Object.values(res)[0]?.UserType,
-          Object.values(res)[0]?.Name
+          Object.values(res)[0]?.Name,
+          Object.values(res)[0]?.Role
         );
       }
     });
