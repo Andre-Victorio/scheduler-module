@@ -24,7 +24,6 @@ function App() {
     const studentNavbar = document.getElementById("studentNavbar");
     var userType = sessionStorage.getItem("userType");
     if (userType !== null) {
-      document.getElementById("loginForm").hidden = true;
       if (window.location.href === "http://localhost:3000/") {
         adminNavbar.hidden = true;
         facultyNavbar.hidden = true;
@@ -35,6 +34,15 @@ function App() {
         facultyNavbar.hidden = false;
       } else if (userType === "student") {
         studentNavbar.hidden = false;
+      }
+      if (window.location.href !== "http://localhost:3000/") {
+        window.history.pushState(null, null, window.location.href);
+
+        window.onpopstate = function (event) {
+          if (window.location.href === "http://localhost:3000/") {
+            window.history.go(1);
+          }
+        };
       }
     } else {
       document.getElementById("loginForm").hidden = false;

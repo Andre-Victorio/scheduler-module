@@ -28,6 +28,7 @@ function ChildModal(props) {
           window.history.go(1);
         }
       };
+      sessionStorage.setItem("connected", true);
     } else {
       x = responseData.message;
     }

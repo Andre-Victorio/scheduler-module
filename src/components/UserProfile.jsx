@@ -1,26 +1,27 @@
-import * as React from 'react';
-import Backdrop from '@mui/material/Backdrop';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Fade from '@mui/material/Fade';
-import Typography from '@mui/material/Typography';
-import '../pages/styles.css'
-import { FaUser } from 'react-icons/fa';
+import * as React from "react";
+import Backdrop from "@mui/material/Backdrop";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Fade from "@mui/material/Fade";
+import Typography from "@mui/material/Typography";
+import "../pages/styles.css";
+import {FaUser} from "react-icons/fa";
+import {capitalizeWords} from "./utility";
 
 const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: '30%',
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-  };
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: "30%",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
 
 function UserProfile() {
- const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -33,7 +34,7 @@ function UserProfile() {
         open={open}
         onClose={handleClose}
         closeAfterTransition
-        slots={{ backdrop: Backdrop }}
+        slots={{backdrop: Backdrop}}
         slotProps={{
           backdrop: {
             timeout: 500,
@@ -43,23 +44,26 @@ function UserProfile() {
         <Fade in={open}>
           <Box sx={style}>
             <Typography id="transition-modal-title" variant="h6">
-             <h2>User Profile</h2>
+              <h2>User Profile</h2>
             </Typography>
-            <Typography id="transition-modal-description" sx={{ mt: 2 }}>
+            <Typography id="transition-modal-description" sx={{mt: 2}}>
               <div className="details">
-                <h3><b>Name</b></h3>
-                <h3> Username</h3>
+                <h3>
+                  <b>Name</b>
+                </h3>
+                <h3>{capitalizeWords(sessionStorage.getItem("name"))}</h3>
               </div>
 
               <div className="details">
-              <h3><b>Role</b></h3>
-                <h3>User Role</h3>
+                <h3>
+                  <b>Role</b>
+                </h3>
+                <h3>{capitalizeWords(sessionStorage.getItem("role"))}</h3>
               </div>
 
               <div className="actions">
                 <button onClick={handleClose}>OK</button>
               </div>
-              
             </Typography>
           </Box>
         </Fade>
@@ -68,4 +72,4 @@ function UserProfile() {
   );
 }
 
-export default UserProfile
+export default UserProfile;
