@@ -66,6 +66,7 @@ function Create_meeting() {
       list: results,
     });
   };
+
   const displayResult = useCallback(() => {
     var cards = document.getElementById("facultyCards").children;
     const foundElements = parseList(state.list);
@@ -122,7 +123,8 @@ function Create_meeting() {
                 <h3>{capitalizeWords(card.Name)}</h3>
                 <h6>{capitalizeWords(card.Role)}</h6>
                 {/*REDIRECT TO FACULTY'S AVAILABLE SCHEDULE*/}
-                <Link to="/available_sched">
+                {/* state={{accountId: this.parent.id}} */}
+                <Link to="/available_sched" state={{accountId: card.FacultyId}}>
                   <FaAngleDoubleRight className="icon" />
                 </Link>
               </div>

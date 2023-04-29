@@ -1,74 +1,40 @@
-import React from 'react'
-import './styles.css'
-import { Link } from "react-router-dom"
-import Collapsible from 'react-collapsible';
-import SelectSchedModal from '../components/SelectScheduleModal';
-
+import React from "react";
+import "./styles.css";
+import {Link, useLocation} from "react-router-dom";
+import RetrieveSchedules from "../components/retrieveSchedule";
+import DisplaySchedules from "../components/DisplaySchedules";
 function Available_sched() {
+  const location = useLocation();
+  const propsData = location.state;
+  if (propsData !== null) {
+    const facultyId = propsData.accountId;
+    sessionStorage.setItem("facultyAvailableSchedId", facultyId);
+  }
+
+  const schedules = RetrieveSchedules(
+    sessionStorage.getItem("facultyAvailableSchedId")
+  );
+  console.log(schedules);
   return (
     <div className="page">
-    <section>
-
-            {/*PAGE HEADING*/}
-            <div className="container">
-             <h1>Available Schedule</h1>
-            </div>
-
-            {/*SCHEDULE CARDS - DISPLAY AVAILABLE SCHEDULE OF SELECTED FACULTY*/}
-           <div className="cards">
-              <div className="avail-sched-card">
-
-                  <h2><b>MARCH 26</b></h2> {/*DATE OF AVAILABILITY*/}
-                  <h5>CHRISTINE BANDALAN, DALMAN</h5> {/*NAME OF FACULTY*/}
-
-
-                  {/*COLLAPSIBLE CONTENT*/}
-                  <div className="collapsible-container">
-                      <Collapsible trigger ="View Schedules">
-                       <div className="collapsible-content">
-                          
-                           {/*FACULTY'S AVAILABLE SCHEDULE*/}
-                            <div className="details">
-                            <h4><b>9:00-10:30AM</b></h4>
-                            <div className ="actions">
-                            {/*SELECT SCHED BUTTON - NEEDS TO REFLECT TIME SELECTED*/}
-                            <SelectSchedModal />
-                            </div>
-                            </div>
-
-                            {/*FACULTY'S AVAILABLE SCHEDULE*/}
-                            <div className="details">
-                            <h4><b>12:00-1:30PM</b></h4>
-                            <div className ="actions">
-                            {/*SELECT SCHED BUTTON - NEEDS TO REFLECT TIME SELECTED*/}
-                            <SelectSchedModal />
-                            </div>
-                            </div>
-
-                          
-                           {/*FACULTY'S AVAILABLE SCHEDULE*/}
-                            <div className="details">
-                            <h4><b>1:00-2:30PM</b></h4>
-                            <div className ="actions">
-                            {/*SELECT SCHED BUTTON - NEEDS TO REFLECT TIME SELECTED*/}
-                            <SelectSchedModal className = "modal"/>
-                            </div>
-                            </div>
-
-                        </div>
-                      </Collapsible>
-                  </div>
-                
-          </div>
+      <section>
+        {/*PAGE HEADING*/}
+        <div className="container">
+          <h1>Available Schedule</h1>
         </div>
 
-    {/*RETURNS TO CREATE MEETING PAGE*/}
-    <div className ="return">
-      <Link to ="/create_meeting">Return</Link>
+        <DisplaySchedules
+          scheduleCollection={schedules}
+          userType={sessionStorage.getItem("userType")}
+        />
+
+        {/*RETURNS TO CREATE MEETING PAGE*/}
+        <div className="return">
+          <Link to="/create_meeting">Return</Link>
+        </div>
+      </section>
     </div>
-    </section>
-    </div>
-  )
+  );
 }
 
-export default Available_sched
+export default Available_sched;

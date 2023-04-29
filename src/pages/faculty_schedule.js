@@ -3,7 +3,9 @@ import AddSchedModal from "../components/AddSchedModal";
 import DisplaySchedules from "../components/DisplaySchedules";
 import RetrieveSchedules from "../components/retrieveSchedule";
 function FacultySched() {
-  var scheduleCollection = RetrieveSchedules();
+  var scheduleCollection = RetrieveSchedules(
+    sessionStorage.getItem("accountId")
+  );
   return (
     <div className="page">
       <section>

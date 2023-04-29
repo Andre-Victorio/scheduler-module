@@ -57,7 +57,6 @@ export function parseTime(time) {
   // fetch
   var hours = Number(time[0]);
   var minutes = Number(time[1]);
-  var seconds = Number(time[2]);
 
   // calculate
   var timeValue;
@@ -71,7 +70,6 @@ export function parseTime(time) {
   }
 
   timeValue += minutes < 10 ? ":0" + minutes : ":" + minutes; // get minutes
-  timeValue += seconds < 10 ? ":0" + seconds : ":" + seconds; // get seconds
   timeValue += hours >= 12 ? " PM" : " AM"; // get AM/PM
   return timeValue;
 }

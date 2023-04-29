@@ -1,7 +1,7 @@
 import {useState, useEffect, useRef, useCallback} from "react";
 import {parseSchedules} from "../components/utility";
 
-function RetrieveSchedules() {
+function RetrieveSchedules(accountId) {
   const [scheduleCollection, setScheduleCollection] = useState([]);
   const dataFetchedRef = useRef(false);
   const fetchSchedule = useCallback(async () => {
@@ -10,7 +10,7 @@ function RetrieveSchedules() {
         method: "POST",
         body: JSON.stringify({
           userType: sessionStorage.getItem("userType"),
-          accountId: sessionStorage.getItem("accountId"),
+          accountId: accountId,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -21,7 +21,7 @@ function RetrieveSchedules() {
     var parsedSchedules = parseSchedules(data["data"]);
     var array = Array.from(parsedSchedules, ([name, value]) => ({name, value}));
     setScheduleCollection(array);
-  }, []);
+  }, [accountId]);
 
   useEffect(() => {
     if (dataFetchedRef.current) return;
