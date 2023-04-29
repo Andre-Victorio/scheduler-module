@@ -4,8 +4,7 @@ import RemoveSched from "./RemoveSched";
 import SelectSchedModal from "./SelectScheduleModal";
 function DisplaySchedules(props) {
   var scheduleCollection = props.scheduleCollection;
-  var toggle =
-    props.userType === "faculty" ? <RemoveSched /> : <SelectSchedModal />;
+  console.log(scheduleCollection);
   return scheduleCollection.map(function (key, value) {
     return (
       <div className="cards" key={value}>
@@ -16,6 +15,12 @@ function DisplaySchedules(props) {
           <div className="collapsible-container">
             <Collapsible trigger="View Schedules">
               {scheduleCollection[value].value.map(function (key1, value2) {
+                var toggle =
+                  props.userType === "faculty" ? (
+                    <RemoveSched scheduleId={key1.scheduleId} />
+                  ) : (
+                    <SelectSchedModal />
+                  );
                 return (
                   <div className="collapsible-content">
                     <div className="details">

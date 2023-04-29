@@ -11,4 +11,5 @@ router.patch("/updateAccount", accountController.updateAccount);
 //Schedules
 router.post("/addSchedule", accountController.addSchedule);
 router.post("/retrieveSchedules", accountController.retrieveSchedules);
+router.post("/deleteSchedule", accountController.deleteSchedule);
 module.exports = router;

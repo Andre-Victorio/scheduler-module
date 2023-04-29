@@ -244,3 +244,14 @@ exports.retrieveSchedules = (req, res) => {
     res.send({status: 200, data: post});
   });
 };
+
+exports.deleteSchedule = (req, res) => {
+  console.log(req.body);
+  Schedule.deleteSchedule(req.body.scheduleId, function (err, post) {
+    if (err) {
+      res.send(err);
+    }
+    console.log("res", post);
+    res.send({status: 200, data: post});
+  });
+};

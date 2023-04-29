@@ -18,6 +18,7 @@ function RetrieveSchedules(accountId) {
       });
     }
     var data = await response.json();
+    // console.log(data);
     var parsedSchedules = parseSchedules(data["data"]);
     var array = Array.from(parsedSchedules, ([name, value]) => ({name, value}));
     setScheduleCollection(array);

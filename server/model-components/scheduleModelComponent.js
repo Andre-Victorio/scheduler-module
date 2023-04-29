@@ -38,6 +38,22 @@ class Schedule {
       }
     );
   }
+  static deleteSchedule(scheduleId, result) {
+    console.log(scheduleId);
+    dbConn.query(
+      "DELETE FROM Schedule WHERE ScheduleId = ?",
+      scheduleId,
+      function (err, res) {
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+        } else {
+          console.log("posts: ", res);
+          result(null, res);
+        }
+      }
+    );
+  }
 }
 
 module.exports = Schedule;

@@ -37,6 +37,7 @@ export function parseSchedules(schedules) {
         startTime: schedules[x].StartTime,
         endTime: schedules[x].EndTime,
         location: schedules[x].Location,
+        scheduleId: schedules[x].ScheduleId,
       });
     } else {
       parsedSchedules.set(parseDate(schedules[x].Date), [
@@ -44,6 +45,7 @@ export function parseSchedules(schedules) {
           startTime: schedules[x].StartTime,
           endTime: schedules[x].EndTime,
           location: schedules[x].Location,
+          scheduleId: schedules[x].ScheduleId,
         },
       ]);
     }
