@@ -234,3 +234,13 @@ exports.addSchedule = (req, res) => {
     });
   }
 };
+
+exports.retrieveSchedules = (req, res) => {
+  Schedule.retrieveSchedules(req.body.accountId, function (err, post) {
+    if (err) {
+      res.send(err);
+    }
+    console.log("res", post);
+    res.send({status: 200, data: post});
+  });
+};

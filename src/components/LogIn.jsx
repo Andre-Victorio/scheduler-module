@@ -28,7 +28,6 @@ function ChildModal(props) {
           window.history.go(1);
         }
       };
-      sessionStorage.setItem("connected", true);
     } else {
       x = responseData.message;
     }
@@ -63,6 +62,7 @@ function ChildModal(props) {
     sessionStorage.setItem("userType", responseData.userType);
     sessionStorage.setItem("name", responseData.name);
     sessionStorage.setItem("role", responseData.role);
+    sessionStorage.setItem("accountId", responseData.accountId);
   }
 
   return (

@@ -72,6 +72,7 @@ function AddSchedModal() {
       } else obj[item.name] = item.value;
     }
     console.log(obj);
+    obj["facultyId"] = sessionStorage.getItem("accountId");
     addSchedule(obj);
   };
 
@@ -146,7 +147,6 @@ function AddSchedModal() {
                   />
                 </div>
                 <input type="text" name="facultyId" value="11" hidden />
-                {/*TODO: should be tied with current logged in faculty */}
                 <ChildModal />
               </Typography>
             </form>

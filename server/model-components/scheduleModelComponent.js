@@ -23,6 +23,21 @@ class Schedule {
       }
     );
   }
+  static retrieveSchedules(accountId, result) {
+    dbConn.query(
+      "SELECT * FROM Schedule WHERE FacultyId = ?",
+      accountId,
+      function (err, res) {
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+        } else {
+          console.log("posts: ", res);
+          result(null, res);
+        }
+      }
+    );
+  }
 }
 
 module.exports = Schedule;
