@@ -51,6 +51,7 @@ function ChildModal(props) {
         handleSessions();
       }
     }
+    setAlert(" ");
   };
 
   function handleRoutes(userNavbar) {

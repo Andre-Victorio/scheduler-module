@@ -4,6 +4,8 @@ import RemoveSched from "./RemoveSched";
 import SelectSchedModal from "./SelectScheduleModal";
 function DisplaySchedules(props) {
   var scheduleCollection = props.scheduleCollection;
+  var facultyName = props.facultyName;
+  console.log(facultyName);
   console.log(scheduleCollection);
   return scheduleCollection.map(function (key, value) {
     return (
@@ -19,7 +21,12 @@ function DisplaySchedules(props) {
                   props.userType === "faculty" ? (
                     <RemoveSched scheduleId={key1.scheduleId} />
                   ) : (
-                    <SelectSchedModal />
+                    <SelectSchedModal
+                      facultyName={facultyName}
+                      date={key.name}
+                      location={key1.location}
+                      startTime={parseTime(key1.startTime)}
+                    />
                   );
                 return (
                   <div className="collapsible-content">

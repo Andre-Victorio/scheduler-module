@@ -6,8 +6,10 @@ import DisplaySchedules from "../components/DisplaySchedules";
 function Available_sched() {
   const location = useLocation();
   const propsData = location.state;
+
   if (propsData !== null) {
     const facultyId = propsData.accountId;
+    var facultyName = propsData.name;
     sessionStorage.setItem("facultyAvailableSchedId", facultyId);
   }
 
@@ -26,6 +28,7 @@ function Available_sched() {
         <DisplaySchedules
           scheduleCollection={schedules}
           userType={sessionStorage.getItem("userType")}
+          facultyName={facultyName}
         />
 
         {/*RETURNS TO CREATE MEETING PAGE*/}

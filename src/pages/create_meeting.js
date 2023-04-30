@@ -115,20 +115,23 @@ function Create_meeting() {
         {/*FACULTY CARDS - DISPLAY FACULTY INSIDE DATABASE*/}
         <div style={{width: "180vh"}}>
           <div className="faculty_cards" id="facultyCards">
-            {accounts.map((card) => (
-              <div key={card.FacultyId} className="card" id={card.FacultyId}>
-                <h3>
-                  <b>{card.img}</b>
-                </h3>
-                <h3>{capitalizeWords(card.Name)}</h3>
-                <h6>{capitalizeWords(card.Role)}</h6>
-                {/*REDIRECT TO FACULTY'S AVAILABLE SCHEDULE*/}
-                {/* state={{accountId: this.parent.id}} */}
-                <Link to="/available_sched" state={{accountId: card.FacultyId}}>
-                  <FaAngleDoubleRight className="icon" />
-                </Link>
-              </div>
-            ))}
+            {accounts.map((card) => {
+              const data = {accountId: card.FacultyId, name: card.Name};
+              return (
+                <div key={card.FacultyId} className="card" id={card.FacultyId}>
+                  <h3>
+                    <b>{card.img}</b>
+                  </h3>
+                  <h3>{capitalizeWords(card.Name)}</h3>
+                  <h6>{capitalizeWords(card.Role)}</h6>
+                  {/*REDIRECT TO FACULTY'S AVAILABLE SCHEDULE*/}
+                  {/* state={{accountId: this.parent.id}} */}
+                  <Link to="/available_sched" state={data}>
+                    <FaAngleDoubleRight className="icon" />
+                  </Link>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
