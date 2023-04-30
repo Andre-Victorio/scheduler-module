@@ -66,6 +66,38 @@ function SelectSchedModal(props) {
   const date = props.date;
   const location = props.location;
   const startTime = props.startTime;
+  const scheduleId = props.scheduleId;
+  const studentId = sessionStorage.getItem("accountId");
+  const handleAppointmentSubmit = (event) => {
+    event.preventDefault();
+    createAppointment();
+  };
+
+  async function createAppointment() {
+    document.getElementById("proxySelectscheduleButton").click();
+    const description = document.getElementById("description").value;
+    const category =
+      document.getElementById("categorySelect").options[
+        document.getElementById("categorySelect").selectedIndex
+      ].value;
+    const data = {
+      scheduleId: scheduleId,
+      studentId: studentId,
+      description: description,
+      category: category,
+    };
+    var response = await fetch("/api/createAppointment", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    var responseData = await response.json();
+    console.log(responseData);
+    // var alertField = document.getElementById("alert");
+    // alertField.innerHTML = responseData.message;
+  }
   return (
     <div>
       <div className="actions">
@@ -89,7 +121,7 @@ function SelectSchedModal(props) {
             <Typography id="transition-modal-title" variant="h6">
               <h2>Schedule Meeting</h2>
             </Typography>
-            <form action="">
+            <form onSubmit={handleAppointmentSubmit}>
               <Typography id="transition-modal-description" sx={{mt: 2}}>
                 <div className="details">
                   <h3>
@@ -119,6 +151,7 @@ function SelectSchedModal(props) {
                   <input
                     type="text"
                     placeholder="Purpose of meeting"
+                    id="description"
                     required
                   ></input>
                 </div>

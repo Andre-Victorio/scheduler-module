@@ -26,6 +26,7 @@ function DisplaySchedules(props) {
                       date={key.name}
                       location={key1.location}
                       startTime={parseTime(key1.startTime)}
+                      scheduleId={key1.scheduleId}
                     />
                   );
                 return (

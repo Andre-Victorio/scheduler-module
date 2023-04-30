@@ -21,20 +21,6 @@ class Faculty {
       }
     });
   }
-  // //query a single entry
-  // static findById(accountId, result) {
-  //   dbConn.query(
-  //     "SELECT * FROM accounts WHERE accountId=?",
-  //     accountId,
-  //     function (err, res) {
-  //       if (err) {
-  //         console.log(err, null);
-  //       } else {
-  //         result(null, res);
-  //       }
-  //     }
-  //   );
-  // }
 
   static findByEmail(email, result) {
     dbConn.query(
