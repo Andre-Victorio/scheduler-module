@@ -20,12 +20,8 @@ function RetrieveAppointments(userType) {
       }
     } else if (userType === "admin") {
       if (sessionStorage.getItem("accountId") !== null) {
-        appointments = await fetch("/api/retrieveAppointmentsById", {
-          method: "POST",
-          body: JSON.stringify({
-            accountId: sessionStorage.getItem("accountId"),
-            userType: userType,
-          }),
+        appointments = await fetch("/api/retrieveAllAppointments", {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },

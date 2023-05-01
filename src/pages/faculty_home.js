@@ -61,11 +61,11 @@ function FacultyHome() {
                   <b>{parseDate(key.approvedDataWrapper.scheduleData.Date)}</b>
                 </h3>
                 <h5>
-                  {capitalizeWords(key.approvedDataWrapper.facultyData.Name)}
+                  {capitalizeWords(key.approvedDataWrapper.studentData.Name)}
                 </h5>
                 <h6>{key.approvedDataWrapper.scheduleData.Location}</h6>
                 <h6>
-                  {parseTime(key.approvedDataWrapper.scheduleData.EndTime)}
+                  {parseTime(key.approvedDataWrapper.scheduleData.StartTime)}
                 </h6>
                 <FacultyHomeModal
                   className="modal"

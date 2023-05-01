@@ -135,7 +135,9 @@ function My_meetings() {
                       <h5>{key.pendingDataWrapper.facultyData.Name}</h5>
 
                       <h5>
-                        {parseTime(key.pendingDataWrapper.scheduleData.EndTime)}
+                        {parseTime(
+                          key.pendingDataWrapper.scheduleData.StartTime
+                        )}
                       </h5>
 
                       <h4 className="status_pending">PENDING</h4>

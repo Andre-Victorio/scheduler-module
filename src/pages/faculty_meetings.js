@@ -146,7 +146,7 @@ function FacultyMeetings() {
                       {/* FACULTY OF INTEREST*/}
                       <h5>
                         {parseTime(
-                          key.approvedDataWrapper.scheduleData.EndTime
+                          key.approvedDataWrapper.scheduleData.StartTime
                         )}
                       </h5>{" "}
                       {/* TIME OF MEETING */}

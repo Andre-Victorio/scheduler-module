@@ -147,7 +147,7 @@ exports.retrieveAppointmentsById = (req, res) => {
         res.send({status: 200, data: post});
       }
     );
-  } else {
+  }  else {
     Appointment.retrieveAppointmentsByFacultyId(
       req.body.accountId,
       function (err, post) {

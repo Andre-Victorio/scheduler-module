@@ -1,131 +1,203 @@
-import React from 'react'
-import {useState} from 'react'
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import 'react-tabs/style/react-tabs.css';
-import Collapsible from 'react-collapsible';
-import './styles.css'
-import ApproveMeetingModal from '../components/ApproveMeetinModal';
-import CancelMeetingModal from '../components/CancelMeetingModal';
-
+import React from "react";
+import {useState} from "react";
+import {Tab, Tabs, TabList, TabPanel} from "react-tabs";
+import "react-tabs/style/react-tabs.css";
+import Collapsible from "react-collapsible";
+import "./styles.css";
+import ApproveMeetingModal from "../components/ApproveMeetinModal";
+import CancelMeetingModal from "../components/CancelMeetingModal";
+import RetrieveAppointments from "../components/retrieveAppointments";
+import {parseDate, parseTime, capitalizeWords} from "../components/utility";
 //DISPLAYS ALL MEETINGS
 function AdminAppointments() {
-  
-//TAB TO TOGGLE BETWEEN 'APPROVED' and 'PENDING'
+  const appointments = RetrieveAppointments("admin");
+  //TAB TO TOGGLE BETWEEN 'APPROVED' and 'PENDING'
   const [tabIndex, setTabIndex] = useState(0);
   return (
     <div className="admin_page">
       <section>
-
-         {/* PAGE TITLE */}
+        {/* PAGE TITLE */}
         <div className="container">
           <h1>Appointment Requests</h1>
         </div>
 
         {/* TAB CONTAINER */}
-        <div className="tablist-container"> 
-        <Tabs id="controlled-tabs" selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
+        <div className="tablist-container">
+          <Tabs
+            id="controlled-tabs"
+            selectedIndex={tabIndex}
+            onSelect={(index) => setTabIndex(index)}
+          >
+            {/* TAB HEADINGS*/}
+            <TabList>
+              <Tab>
+                <div className="tab-container">
+                  <h4>APPROVED</h4>
+                </div>
+              </Tab>
+              <Tab>
+                <div className="tab-container">
+                  <h4>PENDING</h4>
+                </div>
+              </Tab>
+            </TabList>
 
-        {/* TAB HEADINGS*/}
-        <TabList>
-          <Tab><div className="tab-container"><h4>APPROVED</h4></div></Tab>
-          <Tab><div className="tab-container"><h4>PENDING</h4></div></Tab>
-        </TabList>
+            {/* TAB CONTENTS - APPROVED*/}
+            <TabPanel>
+              {appointments.approved.map(function (key, value) {
+                console.log(key);
+                return (
+                  <div className="cards">
+                    <div className="tab-card">
+                      <h3>
+                        <b>
+                          {parseDate(key.approvedDataWrapper.scheduleData.Date)}
+                        </b>
+                      </h3>
+                      {/*DATE*/}
+                      <h5>
+                        {capitalizeWords(
+                          key.approvedDataWrapper.facultyData.Name
+                        )}
+                      </h5>
+                      <h5>
+                        {capitalizeWords(
+                          key.approvedDataWrapper.studentData.Name
+                        )}
+                      </h5>
+                      <h5>
+                        {parseTime(
+                          key.approvedDataWrapper.scheduleData.StartTime
+                        )}
+                      </h5>
+                      <h4 className="status_approved">APPROVED</h4>{" "}
+                      {/* MEETING STATUS - APPROVED */}
+                      <div className="hide">x</div> {/* TOGGLE TO HIDE CARD */}
+                      {/* COLLAPSIBLE CONTENT */}
+                      <div className="collapsible-container">
+                        <Collapsible trigger="View Details">
+                          <div className="collapsible-content">
+                            {/* DISPLAY PRIORITY NUMBER */}
+                            <div className="details">
+                              <h4>
+                                <b>PRIORITY NUMBER</b>
+                              </h4>
+                              <h4>
+                                <b>
+                                  {key.approvedDataWrapper.data.PriorityNumber}
+                                </b>
+                              </h4>
+                            </div>
 
+                            {/* DISPLAY LOCATION*/}
+                            <div className="details">
+                              <h5>
+                                <b>Location</b>
+                              </h5>
+                              <p>
+                                {key.approvedDataWrapper.scheduleData.Location}
+                              </p>
+                            </div>
 
-        {/* TAB CONTENTS - APPROVED*/}
-          <TabPanel>
-            <div className="cards">
-              <div className="tab-card">
+                            {/* DISPLAY MEETING DESCRIPTION*/}
+                            <div className="details">
+                              <h5>
+                                <b>Description</b>
+                              </h5>
+                              <p>{key.approvedDataWrapper.data.Description}</p>
+                            </div>
 
-                  <h3><b>MARCH 26</b></h3> {/*DATE*/}
-                  <h5>FACULTY NAME</h5> {/* FACULTY OF INTEREST*/}
-                  <h5>STUDENT NAME</h5> {/* STUDENT OF INTEREST*/}
-                  <h5>4:30PM</h5> {/*TIME*/}
-                  <h4 className="status_approved">APPROVED</h4>  {/* MEETING STATUS - APPROVED */}
-                  <div className ="hide">x</div> {/* TOGGLE TO HIDE CARD */}
-
-                  {/* COLLAPSIBLE CONTENT */}
-                  <div className="collapsible-container">
-                      <Collapsible trigger ="View Details">
-                       <div className="collapsible-content">
-                          
-                          {/* DISPLAY PRIORITY NUMBER */}
-                          <div className="details">
-                            <h4><b>PRIORITY NUMBER</b></h4>
-                            <h4><b>1</b></h4>
+                            {/* CANCEL MEETING BUTTON*/}
+                            <div className="actions">
+                              <CancelMeetingModal />
+                            </div>
                           </div>
-                          
-                          {/* DISPLAY LOCATION*/}
-                          <div className="details">
-                            <h5><b>Location</b></h5>
-                            <p>DCISM Office</p>
-                          </div>
-
-                          {/* DISPLAY MEETING DESCRIPTION*/}
-                          <div className="details">
-                            <h5><b>Description</b></h5>
-                            <p>Project consultation and updates</p>
-                          </div>
-
-                           {/* CANCEL MEETING BUTTON*/}
-                          <div className="actions">
-                            <CancelMeetingModal />
-                          </div>
-                        </div>        
-                      </Collapsible>       
+                        </Collapsible>
+                      </div>
+                    </div>
                   </div>
-              </div>
-            </div>
-          </TabPanel>
-              
-          
-          {/* TAB CONTENTS - PENDING*/}
-           {/* PENDING APPOINTMENTS DON'T HAVE PRIORITY NUMBER*/}
-          <TabPanel>
-          <div className="cards">
-              <div className="tab-card">
-                  <h3><b>MARCH 26</b></h3> {/* DATE*/}
-                  <h5>FACULTY NAME</h5> {/* FACULTY OF INTEREST*/}
-                  <h5>STUDENT NAME</h5> {/* STUDENT OF INTEREST*/}
-                  <h5>4:30PM</h5>{/* TIME*/}
-                  <h4 className="status_pending">PENDING</h4> {/*STATUS - PENDING*/}
+                );
+              })}
+            </TabPanel>
 
-                  {/* COLLAPSIBLE CONTENT */}
-                  <div className="collapsible-container">
-                      <Collapsible trigger ="View Details">
-                       <div className="collapsible-content">
+            {/* TAB CONTENTS - PENDING*/}
+            {/* PENDING APPOINTMENTS DON'T HAVE PRIORITY NUMBER*/}
+            <TabPanel>
+              {appointments.pending.map(function (key, value) {
+                return (
+                  <div className="cards">
+                    <div className="tab-card">
+                      <h3>
+                        <b>
+                          {parseDate(key.pendingDataWrapper.scheduleData.Date)}
+                        </b>
+                      </h3>
+                      {/* DATE*/}
+                      <h5>
+                        {capitalizeWords(
+                          key.pendingDataWrapper.facultyData.Name
+                        )}
+                      </h5>{" "}
+                      {/* FACULTY OF INTEREST*/}
+                      <h5>
+                        {capitalizeWords(
+                          key.pendingDataWrapper.studentData.Name
+                        )}
+                      </h5>{" "}
+                      {/* STUDENT OF INTEREST*/}
+                      <h5>
+                        {parseTime(
+                          key.pendingDataWrapper.scheduleData.StartTime
+                        )}
+                      </h5>
+                      {/* TIME*/}
+                      <h4 className="status_pending">PENDING</h4>{" "}
+                      {/*STATUS - PENDING*/}
+                      {/* COLLAPSIBLE CONTENT */}
+                      <div className="collapsible-container">
+                        <Collapsible trigger="View Details">
+                          <div className="collapsible-content">
+                            <div className="details">
+                              <h5>
+                                <b>Location</b>
+                              </h5>
+                              <p>
+                                {key.pendingDataWrapper.scheduleData.Location}
+                              </p>
+                            </div>
 
-                          <div className="details">
-                            <h5><b>Location</b></h5>
-                            <p>DCISM Office</p>
+                            <div className="details">
+                              <h5>
+                                <b>Description</b>
+                              </h5>
+                              <p>{key.pendingDataWrapper.data.Description}</p>
+                            </div>
+
+                            <div className="actions">
+                              <ApproveMeetingModal
+                                appointmentId={
+                                  key.pendingDataWrapper.data.AppointmentId
+                                }
+                              />
+                              <CancelMeetingModal
+                                appointmentId={
+                                  key.pendingDataWrapper.data.AppointmentId
+                                }
+                              />
+                            </div>
                           </div>
-
-                          <div className="details">
-                            <h5><b>Description</b></h5>
-                            <p>Project consultation and updates</p>
-                          </div>
-
-                          <div className="actions">
-                            <ApproveMeetingModal />
-                            <CancelMeetingModal />
-                          </div>
-
-                        </div>
-                    
-                      </Collapsible>
-                  
+                        </Collapsible>
+                      </div>
+                    </div>
                   </div>
-              </div>
-
-        
-            </div>
-            
-          </TabPanel>
-        </Tabs>
+                );
+              })}
+            </TabPanel>
+          </Tabs>
         </div>
       </section>
     </div>
-  )
+  );
 }
 
-export default AdminAppointments
+export default AdminAppointments;

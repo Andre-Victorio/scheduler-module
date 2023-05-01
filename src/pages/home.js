@@ -48,7 +48,9 @@ function Home() {
                 {capitalizeWords(key.approvedDataWrapper.facultyData.Name)}
               </h5>
               <h6>{key.approvedDataWrapper.scheduleData.Location}</h6>
-              <h6>{parseTime(key.approvedDataWrapper.scheduleData.EndTime)}</h6>
+              <h6>
+                {parseTime(key.approvedDataWrapper.scheduleData.StartTime)}
+              </h6>
               <HomeModal className="modal" data={key.approvedDataWrapper} />
             </div>
           ))}
