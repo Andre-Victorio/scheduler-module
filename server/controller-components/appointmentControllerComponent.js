@@ -135,15 +135,29 @@ exports.cancelAppointment = (req, res) => {
 
 exports.retrieveAppointmentsById = (req, res) => {
   console.log(req.body.accountId);
-  Appointment.retrieveAppointmentsByStudentId(
-    req.body.accountId,
-    function (err, post) {
-      console.log("controller");
-      if (err) {
-        res.send(err);
+  if (req.body.userType === "student") {
+    Appointment.retrieveAppointmentsByStudentId(
+      req.body.accountId,
+      function (err, post) {
+        console.log("controller");
+        if (err) {
+          res.send(err);
+        }
+        console.log("res", post);
+        res.send({status: 200, data: post});
       }
-      console.log("res", post);
-      res.send({status: 200, data: post});
-    }
-  );
+    );
+  } else {
+    Appointment.retrieveAppointmentsByFacultyId(
+      req.body.accountId,
+      function (err, post) {
+        console.log("controller");
+        if (err) {
+          res.send(err);
+        }
+        console.log("res", post);
+        res.send({status: 200, data: post});
+      }
+    );
+  }
 };

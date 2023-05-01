@@ -1,18 +1,38 @@
 import {useState, useEffect, useRef, useCallback} from "react";
-function RetrieveAppointments() {
+function RetrieveAppointments(userType) {
   const [approved, setApproved] = useState([]);
   const [pending, setPending] = useState([]);
   const dataFetchedRef = useRef(false);
   const fetchSchedule = useCallback(async () => {
-    if (sessionStorage.getItem("accountId") !== null) {
-      var appointments = await fetch("/api/retrieveAppointmentsById", {
-        method: "POST",
-        body: JSON.stringify({accountId: sessionStorage.getItem("accountId")}),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    if (userType !== "admin") {
+      var appointments;
+      if (sessionStorage.getItem("accountId") !== null) {
+        appointments = await fetch("/api/retrieveAppointmentsById", {
+          method: "POST",
+          body: JSON.stringify({
+            accountId: sessionStorage.getItem("accountId"),
+            userType: userType,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
+    } else if (userType === "admin") {
+      if (sessionStorage.getItem("accountId") !== null) {
+        appointments = await fetch("/api/retrieveAppointmentsById", {
+          method: "POST",
+          body: JSON.stringify({
+            accountId: sessionStorage.getItem("accountId"),
+            userType: userType,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+      }
     }
+
     var data = await appointments.json();
     for (var x in data["data"]) {
       if (data["data"][x].status === 0) {

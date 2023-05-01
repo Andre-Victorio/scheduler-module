@@ -1,11 +1,10 @@
 import React from "react";
-import {useState} from "react";
 import "./styles.css";
 import HomeModal from "../components/HomeModal";
 import RetrieveAppointments from "../components/retrieveAppointments";
 import {parseDate, parseTime, capitalizeWords} from "../components/utility";
 function Home() {
-  const appointments = RetrieveAppointments();
+  const appointments = RetrieveAppointments("student");
   //cards - Dummy data. Represents details for upcoming meetings.
   // const [cards] = useState([
   //   {

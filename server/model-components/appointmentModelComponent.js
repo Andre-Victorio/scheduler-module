@@ -86,7 +86,7 @@ class Appointment {
 
   static retrieveAppointmentsByFacultyId(facultyId, result) {
     dbConn.query(
-      "SELECT * FROM appointment WHERE FacultyId = ?",
+      "SELECT * FROM appointment WHERE ScheduleId IN (SELECT ScheduleId FROM schedule WHERE FacultyId = ?)",
       facultyId,
       function (err, res) {
         if (err) {

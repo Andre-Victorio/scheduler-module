@@ -1,16 +1,16 @@
 import React from "react";
-import {useState, useEffect, useRef, useCallback} from "react";
+import {useState} from "react";
 import {Tab, Tabs, TabList, TabPanel} from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import Collapsible from "react-collapsible";
 import "./styles.css";
 import CancelMeetingModal from "../components/CancelMeetingModal";
 import RetrieveAppointments from "../components/retrieveAppointments";
-import {parseDate, parseTime} from "../components/utility";
+import {parseDate, parseTime, capitalizeWords} from "../components/utility";
 function My_meetings() {
   //TAB TO TOGGLE BETWEEN 'APPROVED' and 'PENDING'
   const [tabIndex, setTabIndex] = useState(0);
-  const appointments = RetrieveAppointments();
+  const appointments = RetrieveAppointments("student");
   console.log(appointments);
   return (
     <div className="page">
@@ -53,7 +53,11 @@ function My_meetings() {
                         </b>
                       </h3>
                       {/* DATE*/}
-                      <h5>{key.approvedDataWrapper.facultyData.Name}</h5>{" "}
+                      <h5>
+                        {capitalizeWords(
+                          key.approvedDataWrapper.facultyData.Name
+                        )}
+                      </h5>{" "}
                       {/* FACULTY OF INTEREST*/}
                       <h5>
                         {parseTime(
