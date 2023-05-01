@@ -96,6 +96,18 @@ class Student {
       }
     });
   }
+
+  static findById(id, result) {
+    const query = "SELECT * FROM Student WHERE studentId = ? AND isDeleted = 0";
+    dbConn.query(query, id, function (err, res) {
+      if (err) {
+        console.log(err);
+        result(err, null);
+      } else {
+        result(null, res);
+      }
+    });
+  }
 }
 
 module.exports = Student;

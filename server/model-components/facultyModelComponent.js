@@ -95,6 +95,17 @@ class Faculty {
       }
     });
   }
+  static findById(id, result) {
+    const query = "SELECT * FROM Faculty WHERE facultyId = ? AND isDeleted = 0";
+    dbConn.query(query, id, function (err, res) {
+      if (err) {
+        console.log(err);
+        result(err, null);
+      } else {
+        result(null, res);
+      }
+    });
+  }
 }
 
 module.exports = Faculty;

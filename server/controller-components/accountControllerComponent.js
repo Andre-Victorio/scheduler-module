@@ -212,6 +212,17 @@ function updateAccount(accountId, x, dataJson, res) {
   });
 }
 
-
-
-
+exports.findById = function (req, res) {
+  var x = req.body["userType"] === "student" ? StudentAccount : FacultyAccount;
+  console.log(req.body);
+  x.findById(req.body.accountId, function (err, account) {
+    if (err) {
+      res.send(err);
+    }
+    if (Object.keys(account).length !== 0) {
+      res.json({status: 200, data: account});
+    } else {
+      res.json({status: 404});
+    }
+  });
+};

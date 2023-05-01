@@ -43,3 +43,15 @@ exports.deleteSchedule = (req, res) => {
   });
 };
 
+exports.findById = function (req, res) {
+  Schedule.findById(req.body.scheduleId, function (err, account) {
+    if (err) {
+      res.send(err);
+    }
+    if (Object.keys(account).length !== 0) {
+      res.json({status: 200, data: account});
+    } else {
+      res.json({status: 404});
+    }
+  });
+};

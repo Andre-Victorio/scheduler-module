@@ -54,6 +54,17 @@ class Schedule {
       }
     );
   }
+  static findById(id, result) {
+    const query = "SELECT * FROM Schedule WHERE ScheduleId = ?";
+    dbConn.query(query, id, function (err, res) {
+      if (err) {
+        console.log(err);
+        result(err, null);
+      } else {
+        result(null, res);
+      }
+    });
+  }
 }
 
 module.exports = Schedule;

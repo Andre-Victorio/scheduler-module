@@ -12,8 +12,8 @@ dbConn.query(
     }
     console.log(`Loaded ${results.length} appointments from database.`);
     results.forEach((result) => {
-      console.log(result);
-      if (result.length !== 0) priorityQueue.setQueue(result.PriorityNumber);
+      if (result.length !== 0 && result.PriorityNumber !== null)
+        priorityQueue.setQueue(result.PriorityNumber);
     });
   }
 );
@@ -25,19 +25,91 @@ class Appointment {
     this.category = appointment.category;
     this.status = 0;
   }
-  //create account
+
   static createAppointment(newAppointment, result) {
-    var priorityNumber = priorityQueue.enqueue();
-    // console.log(priorityNumber);
     dbConn.query(
-      "INSERT INTO Appointment set ?, priorityNumber = ?",
-      [newAppointment, priorityNumber],
+      "INSERT INTO Appointment set ?",
+      newAppointment,
       function (err, res) {
         if (err) {
           console.log("error: ", err);
           result(err, null);
         } else {
           result(null, res.insertId);
+        }
+      }
+    );
+  }
+
+  static approveAppointment(appointmentId, result) {
+    var priorityNumber = priorityQueue.enqueue();
+    const query =
+      "UPDATE Appointment SET status = 1, PriorityNumber = ? WHERE AppointmentId  = ?";
+    dbConn.query(query, [priorityNumber, appointmentId], (err, res) => {
+      if (err) {
+        console.log(err);
+        result(err, null);
+      } else {
+        console.log(res);
+        result(null, res);
+      }
+    });
+  }
+
+  static retrieveAllAppointments(result) {
+    dbConn.query("SELECT * FROM appointment", function (err, res) {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+      } else {
+        console.log("posts: ", res);
+        result(null, res);
+      }
+    });
+  }
+
+  static retrieveAppointmentsByStudentId(studentId, result) {
+    dbConn.query(
+      "SELECT * FROM appointment WHERE StudentId = ?",
+      studentId,
+      function (err, res) {
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+        } else {
+          console.log("posts: ", res);
+          result(null, res);
+        }
+      }
+    );
+  }
+
+  static retrieveAppointmentsByFacultyId(facultyId, result) {
+    dbConn.query(
+      "SELECT * FROM appointment WHERE FacultyId = ?",
+      facultyId,
+      function (err, res) {
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+        } else {
+          console.log("posts: ", res);
+          result(null, res);
+        }
+      }
+    );
+  }
+  static cancelAppointment(appointmentId, result) {
+    dbConn.query(
+      "DELETE FROM appointment WHERE AppointmentId = ?",
+      appointmentId,
+      function (err, res) {
+        if (err) {
+          console.log("error: ", err);
+          result(null, err);
+        } else {
+          console.log("posts: ", res);
+          result(null, res);
         }
       }
     );

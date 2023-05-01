@@ -10,17 +10,8 @@ export function capitalizeWords(str) {
   return parsedStr;
 }
 
-function parseDate(s) {
+export function parseDate(s) {
   var date = new Date(s);
-  // var parsedSchedules = [];
-  // for (var x in schedule) {
-  //   var date = new Date(schedule[x].Date);
-  //   parsedSchedules.push({
-  //     month: date.toLocaleString("default", {month: "long"}),
-  //     date: date.getDate(),
-  //     year: date.getFullYear(),
-  //   });
-  // }
   return (
     date.toLocaleString("default", {month: "long"}) +
     " " +
