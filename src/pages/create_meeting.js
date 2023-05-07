@@ -47,7 +47,7 @@ function Create_meeting() {
   //   },
   // ]);
   var accounts = RetrieveFacultyWithSchedule();
-  
+
   console.log(accounts);
   const [state, setstate] = useState({
     query: "",
@@ -74,7 +74,7 @@ function Create_meeting() {
     var cards = document.getElementById("facultyCards").children;
     const foundElements = parseList(state.list);
     for (var x = 0; x < cards.length; x++) {
-      if (foundElements.includes(parseInt(cards[x].id))) {
+      if (!foundElements.includes(parseInt(cards[x].id))) {
         cards[x].style.display = "none";
         // console.log(cards[x]);
       } else {
@@ -120,7 +120,7 @@ function Create_meeting() {
             {accounts.map((card) => {
               const data = {accountId: card.FacultyId, name: card.Name};
               return (
-                <div key={card.FacultyId} className="card" id={card.FacultyId} >
+                <div key={card.FacultyId} className="card" id={card.FacultyId}>
                   <h3>
                     <b>{card.img}</b>
                   </h3>
