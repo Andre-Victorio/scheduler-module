@@ -2,7 +2,8 @@ import React, {useCallback} from "react";
 import "./styles.css";
 import {Link} from "react-router-dom";
 import {FaAngleDoubleRight} from "react-icons/fa";
-import RetrieveAccounts from "../components/retrieveAccounts";
+// import RetrieveAccounts from "../components/retrieveAccounts";
+import RetrieveFacultyWithSchedule from "../components/retrieveFacultyWithScheduleWrapper";
 import {capitalizeWords} from "../components/utility";
 import {useState, useEffect} from "react";
 //FACULTY CARDS - Dummy data. Represents faculty in the database.
@@ -45,7 +46,9 @@ function Create_meeting() {
   //     role: "Full Time Instructor",
   //   },
   // ]);
-  var accounts = RetrieveAccounts("faculty");
+  var accounts = RetrieveFacultyWithSchedule();
+  
+  console.log(accounts);
   const [state, setstate] = useState({
     query: "",
     list: [],
@@ -67,12 +70,11 @@ function Create_meeting() {
     });
   };
 
-  const displayResult = useCallback(() => {
+  const displayResult = useCallback(async () => {
     var cards = document.getElementById("facultyCards").children;
     const foundElements = parseList(state.list);
-    console.log(state.list);
     for (var x = 0; x < cards.length; x++) {
-      if (!foundElements.includes(parseInt(cards[x].id))) {
+      if (foundElements.includes(parseInt(cards[x].id))) {
         cards[x].style.display = "none";
         // console.log(cards[x]);
       } else {
@@ -118,7 +120,7 @@ function Create_meeting() {
             {accounts.map((card) => {
               const data = {accountId: card.FacultyId, name: card.Name};
               return (
-                <div key={card.FacultyId} className="card" id={card.FacultyId}>
+                <div key={card.FacultyId} className="card" id={card.FacultyId} >
                   <h3>
                     <b>{card.img}</b>
                   </h3>

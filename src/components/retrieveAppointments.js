@@ -39,7 +39,7 @@ function RetrieveAppointments(userType) {
         setApproved((approved) => [...approved, {approvedDataWrapper}]);
       }
     }
-  }, []);
+  });
 
   async function wrapper(data) {
     const scheduleData = await retrieveSchedule(data.ScheduleId);
