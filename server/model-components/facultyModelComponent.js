@@ -36,6 +36,20 @@ class Faculty {
     );
   }
 
+  static findByAccountId(email, result) {
+    dbConn.query(
+      "SELECT * FROM Faculty WHERE ID=?",
+      email,
+      function (err, res) {
+        if (err) {
+          console.log(err, null);
+        } else {
+          result(null, res);
+        }
+      }
+    );
+  }
+
   static retrieveAllAccounts(result) {
     dbConn.query(
       "SELECT * FROM Faculty WHERE isDeleted = 0",

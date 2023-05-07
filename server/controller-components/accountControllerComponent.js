@@ -32,6 +32,35 @@ const simultaneouslyQueryEmail = (req, res) => {
   });
 };
 
+const findByAccountId = (req, res) => {
+  simultaneouslyQueryAccountID(req, function (status) {
+    res(status);
+  });
+};
+
+//Attemps to find email first on student table then goes to faculty table
+const simultaneouslyQueryAccountID = (req, res) => {
+  StudentAccount.findByAccountId(req, function (err, account) {
+    if (err) {
+      res.send(err);
+    }
+    if (Object.keys(account).length !== 0) {
+      res(409);
+    } else {
+      FacultyAccount.findByAccountId(req, function (err, account) {
+        if (err) {
+          res.send(err);
+        }
+        if (Object.keys(account).length !== 0) {
+          res(409);
+        } else {
+          res(200);
+        }
+      });
+    }
+  });
+};
+
 exports.create = function (req, res) {
   var x = req.body["userType"] === "student" ? StudentAccount : FacultyAccount;
   const newAccount = new x(req.body);
@@ -44,16 +73,22 @@ exports.create = function (req, res) {
   } else {
     findByEmail(newAccount["email"], function (status) {
       if (status === 200) {
-        x.createAccount(newAccount, function (err, accountId) {
-          if (err) {
-            res.send(err);
+        findByAccountId(newAccount["id"], function (status) {
+          if (status === 200) {
+            x.createAccount(newAccount, function (err, accountId) {
+              if (err) {
+                res.send(err);
+              }
+              res.json({
+                error: false,
+                status: 200,
+                message: "New record has successfully been added.",
+                data: accountId,
+              });
+            });
+          } else {
+            res.status(409).send({error: true, message: "ID already exists."});
           }
-          res.json({
-            error: false,
-            status: 200,
-            message: "New record has successfully been added.",
-            data: accountId,
-          });
         });
       } else {
         res.status(409).send({error: true, message: "Email already exists."});
