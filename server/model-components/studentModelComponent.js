@@ -52,7 +52,7 @@ class Student {
 
   static retrieveAllAccounts(result) {
     dbConn.query(
-      "SELECT * FROM Student WHERE isDeleted = 0",
+      "SELECT * FROM Student WHERE isDeleted = 0 ORDER BY ID",
       function (err, res) {
         if (err) {
           console.log("error: ", err);

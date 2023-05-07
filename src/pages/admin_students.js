@@ -11,6 +11,8 @@ import EditRecordModal from "../components/EditRecordModal";
 import RemoveRecordModal from "../components/RemoveRecordModal";
 import AddNewRecord from "../components/AddNewRecord";
 import RetrieveAccounts from "../components/retrieveAccounts";
+import {capitalizeWords} from "../components/utility";
+import {useState, useEffect, useCallback} from "react";
 import "./styles.css";
 
 //DISPLAYS ALL STUDENT RECORDS IN THE DATABASE. ONLY STUDENTS
@@ -32,6 +34,69 @@ import "./styles.css";
 
 function AdminStudents() {
   var accounts = RetrieveAccounts("student");
+  const [state, setstate] = useState({
+    query: "",
+    list: [],
+  });
+
+  const handleChange = (e) => {
+    const results = accounts.filter((account) => {
+      if (e.target.value === "") return accounts;
+      var x;
+      try {
+        if (account.Name.toLowerCase().includes(e.target.value.toLowerCase())) {
+          x = account.Name.toLowerCase().includes(e.target.value.toLowerCase());
+        } else if (
+          account.ID.toLowerCase().includes(e.target.value.toLowerCase())
+        ) {
+          x = account.ID.toLowerCase().includes(e.target.value.toLowerCase());
+        } else if (
+          account.Email.toLowerCase().includes(e.target.value.toLowerCase())
+        ) {
+          x = account.Email.toLowerCase().includes(
+            e.target.value.toLowerCase()
+          );
+        } else if (
+          account.Course.toLowerCase().includes(e.target.value.toLowerCase())
+        ) {
+          x = account.Course.toLowerCase().includes(
+            e.target.value.toLowerCase()
+          );
+        }
+        return x;
+      } catch (error) {}
+    });
+    setstate({
+      query: e.target.value,
+      list: results,
+    });
+  };
+
+  const displayResult = useCallback(async () => {
+    var cards = document.getElementById("table").children;
+    const foundElements = parseList(state.list);
+    for (var x = 0; x < cards.length; x++) {
+      if (!foundElements.includes(parseInt(cards[x].id))) {
+        cards[x].style.display = "none";
+        // console.log(cards[x]);
+      } else {
+        cards[x].style.display = "revert";
+      }
+      // console.log(foundElements.includes(parseInt(cards[x].id)));
+    }
+  }, [state.list]);
+
+  useEffect(() => {
+    displayResult();
+  }, [displayResult]);
+
+  function parseList(list) {
+    var data = [];
+    for (var x in list) {
+      data.push(list[x].StudentId);
+    }
+    return data;
+  }
   return (
     <div className="admin_page">
       <section>
@@ -45,7 +110,12 @@ function AdminStudents() {
 
           {/*SEARCH BAR TO SEARCH STUDENT BY NAME OR ID*/}
           <div className="searchbar">
-            <input type="text" placeholder="Search"></input>
+            <input
+              type="text"
+              placeholder="Search"
+              onChange={handleChange}
+              value={state.query}
+            ></input>
             <button>Search</button>
           </div>
         </div>
@@ -64,12 +134,12 @@ function AdminStudents() {
                 </TableRow>
               </TableHead>
 
-              <TableBody>
+              <TableBody id="table">
                 {accounts.map((row) => (
-                  <TableRow key={row.StudentId}>
+                  <TableRow key={row.StudentId} id={row.StudentId}>
                     <TableCell>{row.ID}</TableCell>
-                    <TableCell>{row.Name}</TableCell>
-                    <TableCell>{row.Course}</TableCell>
+                    <TableCell>{capitalizeWords(row.Name)}</TableCell>
+                    <TableCell>{capitalizeWords(row.Course)}</TableCell>
                     <TableCell>{row.Email}</TableCell>
                     <TableCell>
                       <div className="actions">
