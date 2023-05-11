@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# :computer: DCISM Web-based Meeting Scheduler - Program Run Guide
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## ✏️ Setting up the Project
 
-## Available Scripts
+1. Ensure that [XAMPP](https://www.apachefriends.org/index.html) has already been installed in the system.
 
-In the project directory, you can run:
 
-### `npm start`
+2. Ensure that the latest version of [Node JS](https://nodejs.org/en/download/) has been already installed.
+	 To verify the installation of Node JS, enter this command in the command prompt or terminal
+    ```
+    node -v 
+    ```
+	 ❕ This should show the NodeJs version that is currently installed.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3. Ensure that [Git](https://git-scm.com/downloads) is installed on the computer.
+	 To verify the installation of Git, enter this command in the command prompt or terminal
+    ```
+    git --version 
+    ```
 
-### `npm test`
+	 ❕ This should show the version number of Git that is currently installed.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+4. Create a new folder in the computer's local drive and name it as 'scheduler-module'.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+5. Clone the GitHub repository using Git Bash.
+	Open Git Bash and place the path to the newly created folder with this command
+    ```
+    cd "<path of folder named 'scheduler-module'>" 
+    ```
+	
+    Clone the repository with this command using the repository URL
+    ```
+    git clone "https://github.com/Andre-Victorio/scheduler-module.git" --branch backend
+    ```
+	 
+   ⚠️To verify that the repository has been cloned, use `ls` command. It should display `scheduler-module/` in the current working directory.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
+6. Open the command prompt or terminal then cd to the root of the project. Then install the dependencies.
+ 	
+    ```
+    cd <location of this project>
+    npm install --legacy-peer-deps
+    ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+7. Open XAMPP Control Panel and start running both `Apache and MySQL` servers.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+8. In phpMyAdmin, `http://localhost/phpmyadmin/`, create a database named `scheduler-module-db` and import 
+the SQL source file found in the project folder: `scheduler-module-db.sql`.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+9. Finally, run both client and server components of the web application.
+	  ```
+    //To run client-side application
+    npm run client 
+    
+    //To run server-side application
+	  npm run server
+   ```
+	
